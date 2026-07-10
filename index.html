@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Claude из России — старт с нуля</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,500;1,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EDEBE4;
+    --paper-2:#F5F3EC;
+    --card:#FBFAF6;
+    --ink:#2B211C;
+    --ink-soft:#6B5D52;
+    --line:#DBD6C9;
+    --sky:#A6DCEC;
+    --sky-deep:#6FB9D6;
+    --mark:#4C93B0;
+    --r:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    background:var(--paper);color:var(--ink);
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    font-weight:500;font-size:16px;line-height:1.45;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  .wrap{max-width:640px;margin:0 auto;padding:0 20px}
+  h1,h2,h3{font-weight:700;letter-spacing:-.02em;line-height:1.08}
+  .fancy{font-family:'Playfair Display',serif;font-style:italic;font-weight:500;letter-spacing:0}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .eyebrow{font-family:'Playfair Display',serif;font-style:italic;font-weight:500;
+    font-size:16px;color:var(--sky-deep)}
+  .mk{color:var(--mark);font-weight:700}
+  /* inline clickable link */
+  .lnk{color:var(--mark);font-weight:600;text-decoration:underline;
+    text-decoration-color:var(--sky-deep);text-decoration-thickness:1.5px;
+    text-underline-offset:2px;word-break:break-word}
+
+  /* ---------- TOP BAR + BURGER ---------- */
+  .topbar{position:sticky;top:0;z-index:50;background:rgba(237,235,228,.92);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .topbar .in{max-width:640px;margin:0 auto;padding:12px 20px;
+    display:flex;align-items:center;justify-content:space-between}
+  .brand{font-weight:700;font-size:15px;letter-spacing:-.01em}
+  .brand i{font-family:'Playfair Display';font-style:italic;font-weight:500;color:var(--sky-deep)}
+  .burger{width:42px;height:38px;border:1px solid var(--line);border-radius:10px;
+    background:var(--card);display:flex;flex-direction:column;justify-content:center;
+    align-items:center;gap:4px;cursor:pointer;padding:0}
+  .burger span{width:18px;height:2px;background:var(--ink);border-radius:2px;transition:.2s}
+  .burger.x span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+  .burger.x span:nth-child(2){opacity:0}
+  .burger.x span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+
+  .menu{position:fixed;inset:0;z-index:49;background:var(--ink);
+    transform:translateY(-100%);transition:transform .32s cubic-bezier(.5,0,.2,1);
+    display:flex;flex-direction:column;padding:78px 24px 30px;overflow-y:auto}
+  .menu.open{transform:translateY(0)}
+  .menu .lbl{font-family:'Playfair Display';font-style:italic;color:var(--sky);
+    font-size:15px;margin:8px 0 14px}
+  .menu a{color:var(--paper);text-decoration:none;font-weight:600;font-size:22px;
+    letter-spacing:-.02em;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.1);
+    display:flex;align-items:center;gap:14px}
+  .menu a .n{font-family:'JetBrains Mono';font-size:13px;color:var(--sky);flex:none;width:24px}
+  .menu a.plain{font-size:18px;color:#CFC7BC;font-weight:500}
+
+  /* ---------- SCREENS ---------- */
+  .screen{display:none;animation:fade .35s ease}
+  .screen.on{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  section{padding:40px 0}
+
+  /* ---------- HERO / HUB ---------- */
+  .hero{background:var(--ink);color:var(--paper);padding:46px 0 40px}
+  .hero .eyebrow{color:var(--sky)}
+  .hero h1{font-size:clamp(34px,10vw,50px);font-weight:800;letter-spacing:-.03em;margin:14px 0 0}
+  .hero h1 .fancy{color:var(--sky);font-weight:500}
+  .hero .lede{font-size:17px;color:#D8D0C6;margin-top:18px;line-height:1.42}
+  .meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:10px}
+  .meta .m{display:flex;align-items:center;gap:8px;font-size:13px;color:#CFC7BC;
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+    border-radius:20px;padding:7px 13px;font-weight:600}
+  .meta .m b{color:var(--sky);font-weight:700}
+  .meta .ast{color:var(--sky);font-weight:700;font-size:15px;line-height:1;flex:none}
+
+  /* disclaimer */
+  .disc{margin-top:26px;background:var(--paper-2);border:1px solid var(--line);
+    border-left:3px solid var(--sky-deep);border-radius:var(--r);padding:22px 20px}
+  .disc .eyebrow{display:block;margin-bottom:10px}
+  .disc p{font-size:15.5px;line-height:1.48;margin-bottom:11px}
+  .disc p:last-child{margin-bottom:0}
+  .disc p b{font-weight:700}
+  .disc .ps{margin-top:15px;padding-top:14px;border-top:1px solid var(--line);
+    font-size:14px;color:var(--ink-soft);line-height:1.5}
+  .disc .ps b{color:var(--ink)}
+  .disc .jump{color:var(--mark);font-weight:600;cursor:pointer;
+    border-bottom:1.5px dotted var(--sky-deep)}
+
+  /* task cards on hub */
+  .hubhead{margin:36px 0 4px}
+  .hubhead h2{font-size:24px}
+  .hubhead p{color:var(--ink-soft);margin-top:8px;font-size:15px}
+  .steps-list{margin-top:22px;display:flex;flex-direction:column;gap:12px}
+  .scard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+    padding:18px;display:flex;gap:16px;align-items:center;cursor:pointer;
+    text-align:left;width:100%;font-family:inherit;transition:.15s;color:inherit}
+  .scard:active{transform:scale(.99)}
+  .scard .idx{font-family:'JetBrains Mono';font-size:13px;font-weight:500;color:#fff;
+    background:var(--ink);width:34px;height:34px;border-radius:9px;flex:none;
+    display:flex;align-items:center;justify-content:center}
+  .scard.done .idx{background:var(--sky-deep)}
+  .scard .tx{flex:1}
+  .scard .tx b{display:block;font-weight:700;font-size:16.5px;letter-spacing:-.01em}
+  .scard .tx small{color:var(--ink-soft);font-size:13.5px;display:block;margin-top:2px}
+  .scard .go{font-size:20px;color:var(--mark);flex:none}
+
+  .startbtn{margin-top:20px;width:100%;background:var(--sky);border:none;
+    border-radius:var(--r);padding:17px;font-family:inherit;font-weight:700;font-size:16px;
+    color:var(--ink);cursor:pointer;letter-spacing:-.01em}
+  .startbtn:active{background:var(--sky-deep)}
+
+  /* about strip on hub */
+  .about{margin-top:38px;background:var(--paper-2);border:1px solid var(--line);
+    border-radius:var(--r);padding:22px 20px}
+  .about .who{font-weight:700;font-size:14px;margin-bottom:10px}
+  .about .who i{font-family:'Playfair Display';font-style:italic;font-weight:500;color:var(--sky-deep)}
+  .about p{font-size:15.5px;line-height:1.48;margin-bottom:12px}
+  .about p:last-child{margin-bottom:0}
+
+  /* mini links row */
+  .minirow{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap}
+  .minirow button{flex:1;min-width:30%;background:transparent;border:1px solid var(--line);border-radius:11px;
+    padding:13px;font-family:inherit;font-weight:600;font-size:14px;color:var(--ink);cursor:pointer}
+  .minirow button:active{background:var(--card)}
+
+  /* ---------- STEP SCREENS ---------- */
+  .stepbar{background:var(--paper-2);border-bottom:1px solid var(--line);padding:14px 0}
+  .stepbar .in{display:flex;align-items:center;gap:12px}
+  .stepbar .back{background:none;border:none;font-family:inherit;font-weight:600;
+    font-size:14px;color:var(--ink-soft);cursor:pointer;padding:0;display:flex;align-items:center;gap:6px}
+  .stepbar .prog{flex:1;height:6px;background:var(--line);border-radius:6px;overflow:hidden}
+  .stepbar .prog i{display:block;height:100%;background:var(--sky-deep);border-radius:6px;transition:.3s}
+  .stepbar .cnt{font-family:'JetBrains Mono';font-size:12px;color:var(--ink-soft);flex:none}
+
+  .shead{padding-top:34px}
+  .shead .eyebrow{display:block;margin-bottom:8px}
+  .shead h2{font-size:clamp(26px,7vw,34px);font-weight:800;letter-spacing:-.03em}
+  .shead .intro{color:var(--ink-soft);margin-top:12px;font-size:15.5px}
+
+  /* action call-out */
+  .todo{margin-top:20px;background:var(--sky);border-radius:var(--r);padding:16px 18px}
+  .todo .t{font-family:'Playfair Display';font-style:italic;font-size:15px;color:#1e2b33;margin-bottom:5px}
+  .todo p{font-size:16px;color:var(--ink);font-weight:600;letter-spacing:-.01em}
+
+  /* preview list on step-1 overview */
+  .plist{margin-top:22px;display:flex;flex-direction:column;gap:11px}
+  .pcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+    padding:16px 18px;display:flex;gap:14px;align-items:center}
+  .pcard .n{font-family:'JetBrains Mono';font-size:13px;color:#fff;background:var(--ink);
+    width:30px;height:30px;border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center}
+  .pcard .d b{font-weight:700;font-size:15.5px;letter-spacing:-.01em;display:block}
+  .pcard .d small{color:var(--ink-soft);font-size:13.5px}
+
+  /* soft note */
+  .note{margin-top:18px;background:var(--paper-2);border:1px solid var(--line);
+    border-left:3px solid var(--sky-deep);border-radius:12px;padding:15px 16px;
+    font-size:14px;color:var(--ink-soft);line-height:1.5}
+  .note b{color:var(--ink);font-weight:700}
+
+  /* ---------- INTERACTIVE CHECKLIST ---------- */
+  .check{margin-top:22px;display:flex;flex-direction:column;gap:10px}
+  .citem{background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:15px 16px;display:flex;gap:14px;cursor:pointer;transition:.15s}
+  .citem .bx{width:24px;height:24px;border:2px solid var(--sky-deep);border-radius:7px;flex:none;
+    display:flex;align-items:center;justify-content:center;margin-top:1px;transition:.15s}
+  .citem .bx:after{content:"";width:11px;height:6px;border-left:2.5px solid #fff;
+    border-bottom:2.5px solid #fff;transform:rotate(-45deg) scale(0);transition:.15s;margin-top:-2px}
+  .citem.done .bx{background:var(--sky-deep)}
+  .citem.done .bx:after{transform:rotate(-45deg) scale(1)}
+  .citem .cx b{font-weight:700;font-size:15.5px;letter-spacing:-.01em}
+  .citem.done .cx b{text-decoration:line-through;color:var(--ink-soft)}
+  .citem .cx p{font-size:14px;color:var(--ink-soft);line-height:1.45;margin-top:3px}
+  .checkbar{margin-top:16px;display:flex;align-items:center;gap:12px;font-size:14px;color:var(--ink-soft)}
+  .checkbar .pb{flex:1;height:8px;background:var(--line);border-radius:8px;overflow:hidden}
+  .checkbar .pb i{display:block;height:100%;background:var(--sky-deep);width:0;transition:.3s}
+  .checkbar b{font-family:'JetBrains Mono';font-weight:500;color:var(--ink)}
+
+  /* ---------- PAYMENT TABS ---------- */
+  .tabs{margin-top:22px;display:flex;gap:7px}
+  .tab{flex:1;font-family:inherit;font-weight:600;font-size:13px;padding:11px 6px;border-radius:11px;
+    cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--ink-soft);
+    display:flex;flex-direction:column;align-items:center;gap:3px;transition:.15s}
+  .tab .n{font-family:'JetBrains Mono';font-weight:500;color:var(--sky-deep);font-size:12px}
+  .tab.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .tab.on .n{color:var(--sky)}
+  .panel{display:none}
+  .panel.on{display:block;animation:fade .3s ease}
+  .method{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 18px;margin-top:14px}
+  .method h3{font-size:21px;font-weight:700}
+  .method .tag{display:inline-block;font-family:'Playfair Display';font-style:italic;
+    font-size:14px;color:var(--sky-deep);margin-top:6px}
+  .steps{margin:18px 0 4px;padding:0;list-style:none;counter-reset:s}
+  .steps li{counter-increment:s;position:relative;padding:0 0 15px 40px;font-size:15.5px;line-height:1.5}
+  .steps li:before{content:counter(s);position:absolute;left:0;top:-1px;font-family:'JetBrains Mono';
+    font-weight:500;font-size:12px;color:var(--ink);background:var(--sky);width:26px;height:26px;
+    border-radius:50%;display:flex;align-items:center;justify-content:center}
+  .steps li:not(:last-child):after{content:"";position:absolute;left:12px;top:26px;bottom:2px;width:2px;background:var(--line)}
+  .steps li u{text-decoration-color:var(--sky-deep);text-decoration-thickness:2px;text-underline-offset:2px;font-weight:600}
+  .verdict{display:flex;flex-direction:column;margin-top:16px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .verdict>div{padding:14px 16px}
+  .verdict .plus{background:var(--paper-2)}
+  .verdict .minus{background:var(--card);border-top:1px solid var(--line)}
+  .verdict .lab{font-weight:700;font-size:12px;letter-spacing:.03em;text-transform:uppercase;
+    margin-bottom:7px;display:flex;align-items:center;gap:7px}
+  .verdict .plus .lab{color:var(--sky-deep)}
+  .verdict .minus .lab{color:var(--ink-soft)}
+  .verdict .sym{font-weight:800;font-size:15px}
+  .verdict ul{list-style:none;font-size:14.5px;line-height:1.5}
+  .verdict li{margin-bottom:5px;padding-left:14px;position:relative}
+  .verdict li:before{content:"—";position:absolute;left:0;color:var(--ink-soft)}
+  .fit{margin-top:14px;font-size:14.5px;color:var(--ink-soft);font-family:'Playfair Display';font-style:italic}
+
+  /* copy box */
+  .copy{margin-top:16px}
+  .copy .cl{font-family:'Playfair Display';font-style:italic;font-size:14px;color:var(--sky-deep);margin-bottom:7px}
+  .copy .field{display:flex;flex-direction:column;gap:8px}
+  .copy .txt{background:var(--ink);color:var(--paper);font-family:'JetBrains Mono';font-size:12.5px;
+    border-radius:10px;padding:13px 14px;line-height:1.55;white-space:pre-wrap;word-break:break-word}
+  .copy .cbtn{background:var(--sky);border:none;border-radius:10px;cursor:pointer;font-family:inherit;
+    font-weight:700;font-size:14px;color:var(--ink);padding:12px;transition:.15s}
+  .copy .cbtn.done{background:var(--ink);color:var(--sky)}
+
+  .tiers{margin-top:20px;background:var(--paper-2);border:1px solid var(--line);border-radius:12px;
+    padding:15px 16px;font-size:14.5px;color:var(--ink-soft);line-height:1.55}
+  .tiers b{color:var(--ink);font-weight:700}
+
+  /* ---------- WARMUP ---------- */
+  .toggle{margin-top:22px;display:flex;background:var(--card);border:1px solid var(--line);
+    border-radius:12px;padding:5px;gap:5px}
+  .toggle button{flex:1;font-family:inherit;font-weight:700;font-size:14.5px;border:none;
+    background:transparent;color:var(--ink-soft);padding:11px;border-radius:9px;cursor:pointer;transition:.15s}
+  .toggle button.on{background:var(--ink);color:var(--paper)}
+  .day{display:none;margin-top:20px}
+  .day.on{display:block;animation:fade .3s}
+  .day .dh{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+  .day .dh .big{font-family:'JetBrains Mono';font-weight:500;font-size:44px;color:var(--sky-deep);line-height:1}
+  .day .dh .cap{font-weight:700;font-size:16px}
+  .day .dh .cap i{display:block;font-family:'Playfair Display';font-style:italic;font-weight:500;
+    color:var(--ink-soft);font-size:14px;margin-top:2px}
+  .tl{list-style:none;border-left:2px solid var(--line);margin-left:7px}
+  .tl li{position:relative;padding:0 0 18px 24px;font-size:15.5px;line-height:1.5}
+  .tl li:before{content:"";position:absolute;left:-7px;top:6px;width:12px;height:12px;border-radius:50%;
+    background:var(--paper);border:2px solid var(--sky-deep)}
+  .tl li b{font-weight:700}
+  .flag{margin-top:16px;background:var(--ink);color:var(--paper);border-radius:12px;padding:16px 18px;font-size:15px;line-height:1.5}
+  .flag b{color:var(--sky)}
+
+  /* ---------- DON'TS ---------- */
+  .donts-list{margin-top:22px;list-style:none;display:flex;flex-direction:column;gap:12px}
+  .donts-list li{background:var(--ink);color:#E4DCD2;border-radius:12px;padding:16px 18px;
+    display:flex;gap:14px;align-items:flex-start;font-size:15px;line-height:1.5}
+  .donts-list .x{font-weight:800;font-size:14px;color:var(--sky);border:1.5px solid var(--sky);
+    border-radius:7px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex:none}
+  .donts-list b{color:#fff;font-weight:700}
+
+  /* ---------- FAQ ---------- */
+  .faq{margin-top:6px;display:flex;flex-direction:column;gap:10px}
+  .qa{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .qa .q{padding:16px 18px;font-weight:600;font-size:15.5px;cursor:pointer;display:flex;
+    justify-content:space-between;gap:14px;align-items:center;letter-spacing:-.01em}
+  .qa .q .pm{font-size:22px;color:var(--mark);flex:none;transition:.2s;line-height:1}
+  .qa.open .q .pm{transform:rotate(45deg)}
+  .qa .a{max-height:0;overflow:hidden;transition:max-height .3s ease}
+  .qa .a p{padding:0 18px 16px;font-size:14.5px;color:var(--ink-soft);line-height:1.5}
+  .qa .a .dbody{padding:2px 18px 18px}
+  .qa .a .dbody .lead{font-size:14.5px;color:var(--ink-soft);line-height:1.5;margin-bottom:6px}
+  .qa .a .dbody h4{font-weight:700;font-size:14px;margin:16px 0 2px;letter-spacing:-.01em;
+    display:flex;align-items:center;gap:8px}
+  .qa .a .dbody h4 .fancy{color:var(--sky-deep);font-size:15px}
+  .qa .a .dbody .steps li{font-size:14.5px;padding-bottom:13px}
+  .qa .a .dbody .tipline{margin-top:8px;font-size:13.5px;color:var(--ink-soft);
+    font-family:'Playfair Display';font-style:italic;line-height:1.45}
+
+  /* full-screen step steps tighten */
+  .stepwrap .lead{font-size:15px;color:var(--ink-soft);line-height:1.5;margin-top:14px}
+  .stepwrap h4{font-weight:700;font-size:15px;margin:22px 0 2px;letter-spacing:-.01em;
+    display:flex;align-items:center;gap:9px}
+  .stepwrap h4 .fancy{color:var(--sky-deep);font-size:16px}
+  .stepwrap .tipline{margin-top:10px;font-size:13.5px;color:var(--ink-soft);
+    font-family:'Playfair Display';font-style:italic;line-height:1.45}
+
+  /* ---------- GLOSSARY ---------- */
+  .gloss{margin-top:6px;display:flex;flex-direction:column;gap:2px}
+  .gterm{padding:18px 0;border-bottom:1px solid var(--line)}
+  .gterm dt{font-weight:700;font-size:16.5px;letter-spacing:-.01em}
+  .gterm dd{color:var(--ink-soft);font-size:15px;margin-top:5px;line-height:1.55}
+  .gterm.hl{background:var(--sky);border-radius:10px;padding:16px 14px;border-bottom:0}
+  .gterm.hl dd{color:#1e2b33}
+
+  /* term link */
+  .term{color:var(--mark);font-weight:600;border-bottom:1.5px dotted var(--sky-deep);cursor:pointer}
+
+  /* ---------- SOURCES ---------- */
+  .srcgrp{margin-top:26px}
+  .srcgrp h4{font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;
+    color:var(--sky-deep);font-weight:700;margin-bottom:12px}
+  .srclink{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);
+    border-radius:12px;padding:14px 16px;margin-bottom:9px;text-decoration:none;color:var(--ink)}
+  .srclink:active{background:var(--paper-2)}
+  .srclink .d{flex:1;min-width:0}
+  .srclink b{font-weight:700;font-size:15px;letter-spacing:-.01em;display:block}
+  .srclink small{color:var(--ink-soft);font-size:13px;display:block;margin-top:1px}
+  .srclink .u{font-family:'JetBrains Mono';font-size:11.5px;color:var(--mark);word-break:break-all;display:block;margin-top:3px}
+  .srclink .go{color:var(--mark);font-size:18px;flex:none}
+
+  /* ---------- NEXT / NAV FOOT ---------- */
+  .nextwrap{margin-top:30px;padding-bottom:6px}
+  .nextbtn{width:100%;background:var(--ink);border:none;border-radius:var(--r);padding:17px;
+    font-family:inherit;font-weight:700;font-size:16px;color:var(--paper);cursor:pointer;
+    display:flex;align-items:center;justify-content:center;gap:10px;letter-spacing:-.01em}
+  .nextbtn:active{background:#1d1611}
+  .nextbtn .a{color:var(--sky);font-size:18px}
+
+  /* ---------- HELP / CTA ---------- */
+  .help{margin-top:26px;background:var(--paper-2);border:1px solid var(--line);border-radius:var(--r);padding:22px 20px}
+  .help .eyebrow{display:block;margin-bottom:8px}
+  .help h3{font-size:20px;font-weight:700}
+  .help p{font-size:15px;color:var(--ink-soft);margin-top:9px;line-height:1.55}
+  .help .btn{margin-top:16px;display:inline-flex;align-items:center;gap:8px;background:var(--ink);
+    color:var(--paper);text-decoration:none;font-weight:700;font-size:15px;padding:14px 22px;border-radius:12px}
+  .help .btn .a{color:var(--sky)}
+
+  .cta{background:var(--sky);text-align:center;padding:52px 0;margin-top:40px;border-radius:var(--r)}
+  .cta .eyebrow{color:#1e2b33}
+  .cta h2{font-size:clamp(26px,7vw,34px);font-weight:800;letter-spacing:-.03em;color:var(--ink);margin-top:8px}
+  .cta p{color:#22303a;font-size:15.5px;margin:12px auto 0;max-width:24em;line-height:1.55}
+  .cta .btn{display:inline-flex;align-items:center;gap:9px;margin-top:22px;background:var(--ink);
+    color:var(--sky);text-decoration:none;font-weight:700;font-size:16px;padding:15px 26px;border-radius:12px}
+
+  footer{text-align:center;padding:30px 20px 40px;font-size:12.5px;color:var(--ink-soft);line-height:1.6}
+  footer b{color:var(--ink)}
+
+  @media(min-width:560px){
+    .tab{font-size:14px}
+    .verdict{flex-direction:row}
+    .verdict .minus{border-top:0;border-left:1px solid var(--line);flex:1}
+    .verdict .plus{flex:1}
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="in">
+    <div class="brand">Kris <i>× Claude</i></div>
+    <button class="burger" id="burger" aria-label="Меню"><span></span><span></span><span></span></button>
+  </div>
+</div>
+
+<!-- BURGER MENU -->
+<div class="menu" id="menu">
+  <div class="lbl">Разделы гайда</div>
+  <a data-go="hub"><span class="n">00</span> Начало</a>
+  <a data-go="s1"><span class="n">01</span> Что подготовить</a>
+  <a data-go="s2"><span class="n">02</span> Прогрев аккаунта</a>
+  <a data-go="s3"><span class="n">03</span> Оплата подписки</a>
+  <a data-go="s4"><span class="n">04</span> Чего не делать</a>
+  <div class="lbl" style="margin-top:22px">Справка</div>
+  <a class="plain" data-go="subs">Типы подписок</a>
+  <a class="plain" data-go="abroad">Если ты не в России</a>
+  <a class="plain" data-go="faq">Частые вопросы</a>
+  <a class="plain" data-go="gloss">Словарь терминов</a>
+  <a class="plain" data-go="src">Источники и ссылки</a>
+  <a class="plain" data-go="hub">Кто автор</a>
+</div>
+
+<!-- ============ HUB ============ -->
+<div class="screen on" id="hub">
+  <header class="hero">
+    <div class="wrap">
+      <div class="eyebrow">Гайд · старт с нуля</div>
+      <h1>Claude из России <span class="fancy">без блокировок</span></h1>
+      <p class="lede">Оплата подписки — первый барьер, на котором отваливается большинство. Проведу по шагам: что подготовить, как прогреть аккаунт, как заплатить и как не словить блок в первый же день.</p>
+      <div class="meta">
+        <span class="m"><span class="ast">✱</span><b>15 мин</b> на чтение</span>
+        <span class="m"><span class="ast">✱</span><b>3 способа</b> оплаты</span>
+        <span class="m"><span class="ast">✱</span><b>0</b> техбэкграунда</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="disc">
+      <span class="eyebrow">Честно, перед стартом</span>
+      <p>Сразу предупрежу: это самая нудная часть всего пути. Один рывок — и у тебя доступ к передовым моделям Anthropic, одного из лидеров рынка. Вся эта возня нужна только из-за ограничений в РФ, а не потому что с тобой что-то не так.</p>
+      <p>Пройдешь этот этап один раз — и откроешь себе все возможности ИИ, о которых столько слышал, но не знал, с какой стороны подступиться. Дальше начинается интересное: чистый креатив и дофамин от того, что соберешь уже за первую неделю.</p>
+      <p>Чтобы тебе было проще, я собрала этот онбординг: он проведет шаг за шагом и сам подставит все нужные ссылки. Просто иди по маршруту ниже.</p>
+      <div class="ps"><b>P.S.</b> Заложи 2–3 часа, если совсем новичок, или около часа, если уже знаком с сервисами и терминами.</div>
+    </div>
+
+    <div class="hubhead">
+      <div class="eyebrow">С чего начать</div>
+      <h2>Ты сейчас в России?</h2>
+      <p>От этого зависит путь. Из-за границы всё проще: обходы не нужны, сразу к подпискам и оплате картой.</p>
+    </div>
+    <div class="steps-list" style="margin-top:18px">
+      <button class="scard" data-go="s1"><span class="idx" style="background:var(--ink);font-size:12px">РФ</span><span class="tx"><b>Я в России</b><small>полный путь: VPN, почта, номер, оплата</small></span><span class="go">→</span></button>
+      <button class="scard" data-go="abroad"><span class="idx" style="background:var(--sky-deep);font-size:12px">ЕС</span><span class="tx"><b>Я не в России</b><small>короткий путь: подписки и оплата картой</small></span><span class="go">→</span></button>
+    </div>
+
+    <div class="hubhead">
+      <div class="eyebrow">Полный маршрут · для России</div>
+      <h2>Четыре шага по порядку</h2>
+      <p>Нажми на любой, чтобы открыть инструкцию. Не знаешь, что берёшь, — сначала загляни в <span class="jump" data-go="subs" style="color:var(--mark);font-weight:600;cursor:pointer;border-bottom:1.5px dotted var(--sky-deep)">типы подписок</span>.</p>
+    </div>
+
+    <div class="steps-list" id="hubSteps">
+      <button class="scard" data-go="s1"><span class="idx" data-idx="1">01</span><span class="tx"><b>Подготовить всё заранее</b><small>VPN, почта, номер для СМС</small></span><span class="go">→</span></button>
+      <button class="scard" data-go="s2"><span class="idx" data-idx="2">02</span><span class="tx"><b>Прогреть аккаунт</b><small>два спокойных дня до оплаты</small></span><span class="go">→</span></button>
+      <button class="scard" data-go="s3"><span class="idx" data-idx="3">03</span><span class="tx"><b>Оплатить подписку</b><small>3 способа: от простого к выгодному</small></span><span class="go">→</span></button>
+      <button class="scard" data-go="s4"><span class="idx" data-idx="4">04</span><span class="tx"><b>Не наступить на грабли</b><small>красные флаги блокировок</small></span><span class="go">→</span></button>
+    </div>
+    <button class="startbtn" data-go="s1">Начать по порядку →</button>
+
+    <div class="about">
+      <div class="who">Крис <i>· @kris.usti</i></div>
+      <p>Я не программистка и пришла не из айти. Еще три года назад я так же зависала над сотней вкладок с нейронками и не понимала, за что хвататься первым.</p>
+      <p>Оплата кажется мелочью, но именно здесь застревают чаще всего. Не потому что сложно, а потому что никто не разложил по шагам: что нужно, в каком порядке и где легко словить блокировку. Я прошла это сама и собрала здесь только то, что реально нужно на старте.</p>
+    </div>
+
+    <div class="minirow">
+      <button data-go="subs">Подписки</button>
+      <button data-go="faq">Частые вопросы</button>
+      <button data-go="gloss">Словарь</button>
+      <button data-go="src">Источники</button>
+    </div>
+
+    <footer>
+      <b>@kris.usti</b> · усиль себя, а я ускорю твой старт<br>
+      Гайд не связан с Anthropic. Использование региональных обходов — на твой риск.
+    </footer>
+  </div>
+</div>
+
+<!-- ============ SUBS · SUBSCRIPTION TYPES ============ -->
+<div class="screen" id="subs">
+  <div class="stepbar"><div class="wrap in"><button class="back backref">‹ Назад</button><span class="cnt" style="margin-left:auto">Подписки</span></div></div>
+  <div class="wrap stepwrap">
+    <div class="shead">
+      <span class="eyebrow">Что вообще берём</span>
+      <h2>Типы подписок Claude</h2>
+      <p class="intro">Три тарифа. Новичку хватает Pro; Max нужен, только если планируешь запускать агента в терминале.</p>
+    </div>
+
+    <div class="plist">
+      <div class="pcard"><span class="n" style="background:var(--sky-deep)">0</span><span class="d"><b>Free — бесплатно</b><small>Claude в браузере, лимит сообщений в день. Чтобы попробовать вкус.</small></span></div>
+      <div class="pcard"><span class="n">$20</span><span class="d"><b>Pro — $20 в месяц</b><small>Больше лимиты, проекты, загрузка файлов, артефакты. Базовый рабочий тариф для чата в браузере.</small></span></div>
+      <div class="pcard"><span class="n">$100</span><span class="d"><b>Max — $100 или $200</b><small>Всё из Pro плюс <span class="term" data-term="cccode">Claude Code</span> в терминале и работа 24/7. Для тех, кто автоматизирует задачи агентом.</small></span></div>
+    </div>
+
+    <div class="note"><b>Коротко.</b> Начинаешь — бери <b>Pro</b>. Захочешь агента в терминале и постоянную работу — переходишь на <b>Max</b>. Эти же тарифы и способы оплаты работают для ChatGPT и Minimax.</div>
+
+    <div class="nextwrap"><button class="nextbtn backref">Понятно, назад <span class="a">→</span></button></div>
+  </div>
+</div>
+
+<!-- ============ ABROAD · SHORT PATH ============ -->
+<div class="screen" id="abroad">
+  <div class="stepbar"><div class="wrap in"><button class="back" data-go="hub">‹ Начало</button><span class="cnt" style="margin-left:auto">Не из РФ</span></div></div>
+  <div class="wrap stepwrap">
+    <div class="shead">
+      <span class="eyebrow">Короткий путь</span>
+      <h2>Если ты не в России</h2>
+      <p class="intro">Из страны, где Claude работает официально, вся возня с VPN и виртуальными номерами не нужна. Регистрируешься как обычно и платишь картой напрямую.</p>
+    </div>
+
+    <h4><span class="fancy">1</span> Проверь, что твоя страна в списке</h4>
+    <p class="lead">Claude доступен в большинстве стран ЕС, США, UK и других. Полный список — на <a class="lnk" href="https://www.anthropic.com/supported-countries" target="_blank" rel="noopener">странице поддерживаемых стран</a>. Если твоя там — просто иди дальше.</p>
+
+    <h4><span class="fancy">2</span> Зарегистрируйся</h4>
+    <ol class="steps">
+      <li>Открой <a class="lnk" href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a> и зарегистрируйся через свою почту — без VPN и без отдельного ящика.</li>
+      <li>Прогрев не нужен: аккаунт из «белой» страны системе не подозрителен.</li>
+    </ol>
+
+    <h4><span class="fancy">3</span> Оплати картой</h4>
+    <ol class="steps">
+      <li>Выбери тариф прямо на сайте Claude и заплати обычной картой — местной Visa или Mastercard.</li>
+      <li>Не знаешь, какой тариф брать, — загляни в <span class="jump" data-go="subs" style="color:var(--mark);font-weight:600;cursor:pointer;border-bottom:1.5px dotted var(--sky-deep)">типы подписок</span>.</li>
+    </ol>
+    <p class="tipline">Вот и всё. Весь длинный маршрут выше — только для тех, кто заходит из РФ или Беларуси.</p>
+
+    <div class="nextwrap"><button class="nextbtn" data-go="hub">Вернуться в начало</button></div>
+  </div>
+</div>
+
+<!-- ============ STEP 1 · PREPARE (overview) ============ -->
+<div class="screen" id="s1">
+  <div class="stepbar"><div class="wrap in"><button class="back" data-go="hub">‹ Маршрут</button><div class="prog"><i style="width:25%"></i></div><span class="cnt">01/04</span></div></div>
+  <div class="wrap">
+    <div class="shead">
+      <span class="eyebrow">Шаг 01</span>
+      <h2>Что подготовить</h2>
+      <p class="intro">Настроим три вещи по порядку: доступ через VPN, отдельную почту и номер для СМС. Пройдем по одной — я проведу за руку. В конце отметим всё готовым и двинемся дальше.</p>
+    </div>
+    <div class="todo"><div class="t">Твоя задача</div><p>Три коротких настройки подряд. Один вечер — и база готова.</p></div>
+
+    <div class="plist">
+      <div class="pcard"><span class="n">1</span><span class="d"><b>VPN и браузер</b><small>доступ к Claude из Европы</small></span></div>
+      <div class="pcard"><span class="n">2</span><span class="d"><b>Отдельная почта Gmail</b><small>новый ящик только под Claude</small></span></div>
+      <div class="pcard"><span class="n">3</span><span class="d"><b>Номер для СМС</b><small>принять код при регистрации</small></span></div>
+    </div>
+
+    <div class="nextwrap"><button class="nextbtn" data-go="s1a">Начать с VPN <span class="a">→</span></button></div>
+  </div>
+</div>
+
+<!-- ==== STEP 1a · VPN ==== -->
+<div class="screen" id="s1a">
+  <div class="stepbar"><div class="wrap in"><button class="back" data-go="s1">‹ Назад</button><div class="prog"><i style="width:33%"></i></div><span class="cnt">Подготовка · 1/3</span></div></div>
+  <div class="wrap stepwrap">
+    <div class="shead">
+      <span class="eyebrow">Подготовка · VPN</span>
+      <h2>Доступ через VPN</h2>
+    </div>
+    <p class="lead">Claude не работает с IP из России и Беларуси. Нужен европейский IP — и VPN включён <b>всё время</b>, пока ты у Claude: регистрация, оплата, вход. Отключил на середине — риск блока.</p>
+
+    <h4><span class="fancy">A</span> Amnezia — рекомендую</h4>
+    <p class="lead">Бесплатный клиент <a class="lnk" href="https://amnezia.org" target="_blank" rel="noopener">amnezia.org</a> (Windows, Mac, iOS, Android). Два режима:</p>
+    <ol class="steps">
+      <li><b>Premium</b> — платная подписка на готовые серверы. Скачал клиент, оплатил, выбрал страну ЕС — работает за 5 минут.</li>
+      <li><b>Свой VPS</b> — поднимаешь VPN на своём сервере (Hetzner, Netcup, от €4/мес). IP только твой — так чище всего. Клиент сам ставит всё по SSH за ~5 минут.</li>
+    </ol>
+
+    <h4><span class="fancy">Б</span> Коммерческий VPN с выделенным IP — проще</h4>
+    <ol class="steps">
+      <li>Возьми подписку с <span class="term" data-term="vpn">выделенным IP</span> — NordVPN или Surfshark. Адрес только твой, не общий с сотней людей.</li>
+      <li>Оплата из РФ — крипта или посредник. Готово за 5 минут, без возни с сервером.</li>
+    </ol>
+
+    <h4><span class="fancy">✱</span> Правила — соблюдай все три</h4>
+    <ul class="tl" style="margin-top:10px">
+      <li>Одна страна ЕС — <b>Нидерланды, Германия или Финляндия</b>. Не прыгай между странами и городами.</li>
+      <li>Никаких <b>бесплатных и публичных</b> VPN: их IP уже в бане у Claude.</li>
+      <li>VPN включён <b>всё время</b> работы с Claude, одна и та же страна оба дня.</li>
+    </ul>
+
+    <h4><span class="fancy">✓</span> Проверь перед регистрацией</h4>
+    <ol class="steps">
+      <li>Зайди на <a class="lnk" href="https://ifconfig.me" target="_blank" rel="noopener">ifconfig.me</a> — IP должен быть европейский, не российский.</li>
+      <li>Проверь утечки на <a class="lnk" href="https://whoer.net" target="_blank" rel="noopener">whoer.net</a>: не должно течь ни DNS, ни <span class="term" data-term="webrtc">WebRTC</span>. В Amnezia включи галочку «DNS через VPN».</li>
+      <li>Заходи из <u>чистого браузера</u> — инкогнито или новый профиль, чтобы старые куки тебя не выдали.</li>
+    </ol>
+    <p class="tipline">Золотое правило: открыт claude.ai — VPN включён. Сомневаешься — тоже включён.</p>
+
+    <div class="nextwrap"><button class="nextbtn" data-go="s1b" data-prep="vpn,browser">Готово, дальше почта <span class="a">→</span></button></div>
+  </div>
+</div>
+
+<!-- ==== STEP 1b · GMAIL ==== -->
+<div class="screen" id="s1b">
+  <div class="stepbar"><div class="wrap in"><button class="back" data-go="s1a">‹ Назад</button><div class="prog"><i style="width:66%"></i></div><span class="cnt">Подготовка · 2/3</span></div></div>
+  <div class="wrap stepwrap">
+    <div class="shead">
+      <span class="eyebrow">Подготовка · Почта</span>
+      <h2>Отдельная почта Gmail</h2>
+    </div>
+    <p class="lead">Claude регистрируют через Google. Личную почту брать не стоит — заведи новый ящик специально под Claude. Есть два пути.</p>
+
+    <h4><span class="fancy">A</span> Создать самому — бесплатно</h4>
+    <ol class="steps">
+      <li>Включи <u>VPN</u> (та же страна, что выбрал на прошлом шаге) — почту тоже заводи под ним.</li>
+      <li>Открой <a class="lnk" href="https://accounts.google.com/signup" target="_blank" rel="noopener">accounts.google.com/signup</a> и создай <u>новый ящик</u> только под Claude.</li>
+      <li>Имя и логин — обычные, человеческие. Не «claude123456»: это сразу выглядит как одноразовый аккаунт.</li>
+      <li>Зайди в почту, отправь пару писем себе, полистай — пусть ящик выглядит «живым», а не созданным минуту назад.</li>
+    </ol>
+
+    <h4><span class="fancy">Б</span> Купить готовый — если не хочешь возиться</h4>
+    <ol class="steps">
+      <li>Возьми готовый прогретый Gmail в разделе почты на <a class="lnk" href="https://ggsel.net" target="_blank" rel="noopener">ggsel.net</a>.</li>
+      <li>Такой ящик уже «пожил» и выглядит естественно — экономит время на прогреве почты.</li>
+    </ol>
+    <p class="tipline">Проще всего — вариант Б, если время дороже пары сотен рублей. Хочешь по-честному с нуля — вариант A ничем не хуже.</p>
+
+    <div class="nextwrap"><button class="nextbtn" data-go="s1c" data-prep="gmail">Готово, дальше номер <span class="a">→</span></button></div>
+  </div>
+</div>
+
+<!-- ==== STEP 1c · NUMBER ==== -->
+<div class="screen" id="s1c">
+  <div class="stepbar"><div class="wrap in"><button class="back" data-go="s1b">‹ Назад</button><div class="prog"><i style="width:100%"></i></div><span class="cnt">Подготовка · 3/3</span></div></div>
+  <div class="wrap stepwrap">
+    <div class="shead">
+      <span class="eyebrow">Подготовка · Номер</span>
+      <h2>Номер для СМС</h2>
+    </div>
+    <p class="lead">При регистрации Claude просит СМС-код. Поэтому номер нужен <b>заранее</b> — приготовь его до старта. Начни с самого простого варианта.</p>
+
+    <h4><span class="fancy">A</span> Разовый номер — проще и дешевле</h4>
+    <ol class="steps">
+      <li>Зайди на сервис виртуальных номеров — <a class="lnk" href="https://hero-sms.com/ru" target="_blank" rel="noopener">hero-sms.com</a> или <a class="lnk" href="https://grizzlysms.com" target="_blank" rel="noopener">grizzlysms.com</a>.</li>
+      <li>Выбери номер для приема СМС от Google или Claude (стоит копейки).</li>
+      <li>Держи страницу с номером открытой — на нее придет код.</li>
+    </ol>
+    <p class="tipline">Подходит, если регистрируешь один аккаунт и не планируешь повторять.</p>
+
+    <h4><span class="fancy">Б</span> Постоянная eSIM — если надолго</h4>
+    <ol class="steps">
+      <li>Оформи <span class="term" data-term="esim">eSIM</span> Казахстана без <span class="term" data-term="kyc">KYC</span> (без паспорта) — например в разделе eSIM на <a class="lnk" href="https://ggsel.net" target="_blank" rel="noopener">ggsel.net</a>.</li>
+      <li>Это виртуальная сим прямо в телефоне: номер остается у тебя и переиспользуется для других сервисов.</li>
+    </ol>
+
+    <h4><span class="fancy">✱</span> Как принять код</h4>
+    <p class="lead">На регистрации <a class="lnk" href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a> через Google выбери подтверждение по номеру, укажи свой виртуальный номер и введи код, который на него придет.</p>
+
+    <div class="nextwrap"><button class="nextbtn" data-go="s1done" data-prep="sms">Готово, подвести итог <span class="a">→</span></button></div>
+  </div>
+</div>
+
+<!-- ==== STEP 1 · DONE (prefilled checklist) ==== -->
+<div class="screen" id="s1done">
+  <div class="stepbar"><div class="wrap in"><button class="back" data-go="s1">‹ Обзор</button><div class="prog"><i style="width:100%"></i></div><span class="cnt">Подготовка · готово</span></div></div>
+  <div class="wrap">
+    <div class="shead">
+      <span class="eyebrow">Подготовка · готово</span>
+      <h2>Всё готово к старту</h2>
+      <p class="intro">Ты собрал базу. Вот чек-лист — если что-то пропустил, вернись и добери. Что не так — жми на пункт.</p>
+    </div>
+
+    <div class="check" id="prepCheck">
+      <div class="citem" data-k="vpn"><div class="bx"></div><div class="cx"><b><span class="term" data-term="vpn">VPN</span> с одной страной ЕС</b><p>Amnezia или выделенный IP. Одна страна, проверено на whoer.net — без утечек.</p></div></div>
+      <div class="citem" data-k="gmail"><div class="bx"></div><div class="cx"><b>Отдельная почта Gmail</b><p>Новый ящик под Claude — созданный или готовый.</p></div></div>
+      <div class="citem" data-k="sms"><div class="bx"></div><div class="cx"><b>Номер для СМС</b><p>Разовый номер или постоянная eSIM без KYC.</p></div></div>
+      <div class="citem" data-k="browser"><div class="bx"></div><div class="cx"><b>Чистый браузер</b><p>Инкогнито или новый профиль. IP европейский, куки не тянутся из старого.</p></div></div>
+    </div>
+    <div class="checkbar"><div class="pb"><i id="prepPb"></i></div><b id="prepCnt">0 / 4</b></div>
+
+    <div class="nextwrap"><button class="nextbtn" data-go="s2" data-done="1">К прогреву аккаунта <span class="a">→</span></button></div>
+  </div>
+</div>
+
+<!-- ============ STEP 2 · WARMUP ============ -->
+<div class="screen" id="s2">
+  <div class="stepbar"><div class="wrap in"><button class="back" data-go="hub">‹ Маршрут</button><div class="prog"><i style="width:50%"></i></div><span class="cnt">02/04</span></div></div>
+  <div class="wrap">
+    <div class="shead">
+      <span class="eyebrow">Шаг 02</span>
+      <h2>Прогреть аккаунт</h2>
+      <p class="intro">Главное правило: <b>не плати в первый день</b>. Свежий аккаунт, который сразу покупает подписку, для системы выглядит как купленный на перепродажу. Дай ему день «пожить» — и только потом оплата.</p>
+    </div>
+    <div class="todo"><div class="t">Твоя задача</div><p>Растянуть старт на два спокойных дня по плану ниже. Оплата — на следующем шаге.</p></div>
+
+    <div class="toggle"><button class="on" data-d="d1">День 1</button><button data-d="d2">День 2</button></div>
+
+    <div class="day on" data-day="d1">
+      <div class="dh"><div class="big">1</div><div class="cap">Знакомство<i>без единого платежа</i></div></div>
+      <ul class="tl">
+        <li>Включи VPN — <b>ту же страну</b>, что при регистрации.</li>
+        <li>Зайди на <a class="lnk" href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a> и задай <b>5–10 обычных вопросов</b>.</li>
+        <li>Создай пару проектов, загрузи файлы (PDF или текст).</li>
+        <li>Попробуй артефакты, проведи <b>2–3 диалога</b> по несколько сообщений.</li>
+        <li>И всё. Сегодня <b>не платишь</b> — просто пользуешься.</li>
+      </ul>
+    </div>
+    <div class="day" data-day="d2">
+      <div class="dh"><div class="big">2</div><div class="cap">Аккаунт ожил<i>можно к оплате</i></div></div>
+      <ul class="tl">
+        <li>Утром — еще <b>2–3 диалога</b> в браузере, минут по десять.</li>
+        <li>Создай проект-другой, загрузи файл, поработай спокойно.</li>
+        <li>Аккаунт «пожил» два дня и выглядит живым.</li>
+        <li>Теперь можно спокойно переходить <b>к оплате</b> — это следующий шаг.</li>
+      </ul>
+      <div class="flag"><b>Важно.</b> Не спеши. Резкий скачок нагрузки на свежем аккаунте — главный повод для блокировки. Прогрев ровно для того, чтобы этого избежать.</div>
+    </div>
+
+    <div class="nextwrap"><button class="nextbtn" data-go="s3" data-done="2">Аккаунт прогрет, к оплате <span class="a">→</span></button></div>
+  </div>
+</div>
+
+<!-- ============ STEP 3 · PAYMENT ============ -->
+<div class="screen" id="s3">
+  <div class="stepbar"><div class="wrap in"><button class="back" data-go="hub">‹ Маршрут</button><div class="prog"><i style="width:75%"></i></div><span class="cnt">03/04</span></div></div>
+  <div class="wrap">
+    <div class="shead">
+      <span class="eyebrow">Шаг 03</span>
+      <h2>Оплатить подписку</h2>
+      <p class="intro">Три рабочих способа — от самого простого к самому выгодному вдолгую. Разница в удобстве, цене и в том, как часто прилетает блокировка. Переключай вкладки и выбери свой.</p>
+    </div>
+    <div class="todo"><div class="t">Твоя задача</div><p>Выбрать один способ и пройти его шаги до конца.</p></div>
+
+    <div class="note"><b>Про «готовые аккаунты».</b> Купить Claude-аккаунт под ключ в магазине аккаунтов заманчиво, но их банят первыми — источник этого гайда прямо не советует так делать. Самый простой честный путь — оплата через агрегатор на свою почту (вкладка 01 ниже).</div>
+
+    <div class="tabs">
+      <div class="tab on" data-t="agg"><span class="n">01</span>Агрегаторы</div>
+      <div class="tab" data-t="app"><span class="n">02</span>App Store US</div>
+      <div class="tab" data-t="crypto"><span class="n">03</span>Криптокарта</div>
+    </div>
+
+    <!-- 1 -->
+    <div class="panel on" data-p="agg">
+      <div class="method">
+        <h3>Через <span class="term" data-term="agg">агрегаторы</span></h3>
+        <div class="tag">проще всего · чтобы попробовать</div>
+        <ol class="steps">
+          <li>Зайди на площадку (<a class="lnk" href="https://plati.market" target="_blank" rel="noopener">Plati Market</a>, <a class="lnk" href="https://funpay.com" target="_blank" rel="noopener">FunPay</a> или <a class="lnk" href="https://ggsel.net" target="_blank" rel="noopener">GGSel</a>), в поиске найди Claude. Смотри на <u>рейтинг продавца</u>, срок работы и процент возвратов.</li>
+          <li>Внимательно прочитай описание товара — там инструкция, как ты получишь доступ.</li>
+          <li>Оплати российской картой в рублях и отправь продавцу в чат <u>свою почту</u>, где уже есть аккаунт Claude на бесплатном тарифе.</li>
+          <li>Продавец сам активирует подписку на этот email. Через какое-то время она появляется.</li>
+        </ol>
+        <div class="copy">
+          <div class="cl">Шаблон сообщения продавцу</div>
+          <div class="field">
+            <div class="txt" id="cp-seller">Здравствуйте! Оплатил заказ. Аккаунт Claude на бесплатном тарифе, подписок нет. Почта для активации: ваша_почта@gmail.com</div>
+            <button class="cbtn" data-cp="cp-seller">Копировать текст</button>
+          </div>
+        </div>
+        <div class="verdict">
+          <div class="plus"><div class="lab"><span class="sym">+</span> Плюсы</div><ul><li>Не нужна иностранная карта</li><li>Самый быстрый старт</li><li>Дешево — от пары тысяч рублей</li></ul></div>
+          <div class="minus"><div class="lab"><span class="sym">−</span> Минусы</div><ul><li>Активируют только на месяц</li><li>Каждый раз искать и платить заново</li><li>Блокировки чаще, чем у способа 02</li></ul></div>
+        </div>
+        <p class="fit">Кому подойдет: тем, кто хочет потыкать Claude и понять, свое это или нет.</p>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="panel" data-p="app">
+      <div class="method">
+        <h3>Через App Store США</h3>
+        <div class="tag">больше шагов · блокируют реже всего</div>
+        <ol class="steps">
+          <li>На айфоне: App Store → иконка профиля → имя → <u>Страна/регион</u> → Соединенные Штаты. Пошаговая инструкция по смене региона — <a class="lnk" href="https://t-j.ru/apple-region/" target="_blank" rel="noopener">здесь</a>.</li>
+          <li>В способе оплаты выбери <u>«Нет»</u>. Адрес — любой американский, телефон — случайные цифры (шаблон ниже).</li>
+          <li>Согласись с условиями. Регион аккаунта теперь США.</li>
+          <li>Пополни баланс картой <u>Apple Gift Card</u> — купи ее на Wildberries, Ozon или Яндекс.Маркете.</li>
+          <li>Активируй код: App Store → профиль → «Активировать код».</li>
+          <li>Скачай приложение Claude, зайди под своей почтой и оплати тариф внутри приложения.</li>
+        </ol>
+        <div class="copy">
+          <div class="cl">Пример адреса и телефона для формы</div>
+          <div class="field">
+            <div class="txt" id="cp-addr">1600 Amphitheatre Parkway
+Mountain View, CA 94043
+United States
+Phone: (650) 253-0000</div>
+            <button class="cbtn" data-cp="cp-addr">Копировать данные</button>
+          </div>
+        </div>
+        <div class="verdict">
+          <div class="plus"><div class="lab"><span class="sym">+</span> Плюсы</div><ul><li>По статистике блокируют реже всего</li><li>Не нужна иностранная карта</li><li>Оплата привычными маркетплейсами</li></ul></div>
+          <div class="minus"><div class="lab"><span class="sym">−</span> Минусы</div><ul><li>Только для iPhone</li><li>Больше шагов на старте</li><li>Пополнение через гифт-карты</li></ul></div>
+        </div>
+        <p class="fit">Кому подойдет: у кого айфон и кто хочет минимальный риск блокировки.</p>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="panel" data-p="crypto">
+      <div class="method">
+        <h3>Через <span class="term" data-term="cc">криптокарту</span></h3>
+        <div class="tag">сложнее на старте · выгоднее вдолгую</div>
+        <ol class="steps">
+          <li>Зарегистрируйся на криптобирже с картой (например <a class="lnk" href="https://www.bybit.com" target="_blank" rel="noopener">Bybit</a>), пройди <u>верификацию</u> по паспорту и селфи.</li>
+          <li>Открой карту и пополни ее криптовалютой.</li>
+          <li>На сайте Claude выбери тариф, введи <u>реквизиты карты</u> — оплата проходит напрямую.</li>
+          <li>Подключается автосписание: следующий месяц спишется сам, следи только за балансом.</li>
+        </ol>
+        <div class="verdict">
+          <div class="plus"><div class="lab"><span class="sym">+</span> Плюсы</div><ul><li>Автопродление — не платишь вручную</li><li>Оплата прямо на сайте Claude</li><li>Одна карта на всё в интернете</li></ul></div>
+          <div class="minus"><div class="lab"><span class="sym">−</span> Минусы</div><ul><li>Нужна верификация по паспорту</li><li>Придется разобраться с криптой</li><li>Блокировки чаще, чем у способа 02</li></ul></div>
+        </div>
+        <p class="fit">Кому подойдет: тем, кто уже решил пользоваться Claude постоянно.</p>
+      </div>
+    </div>
+
+    <div class="flag" style="margin-top:20px"><b>После оплаты.</b> Проведи еще пару диалогов, подожди <b>2–3 часа</b> и только потом запускай <span class="term" data-term="cccode">Claude Code</span> — короткой сессией. Дальше наращивай нагрузку постепенно, а не сотней запросов сразу.</div>
+
+    <div class="tiers">Тарифы: <b>Pro — $20</b> в месяц (браузер, проекты), <b>Max — $100 или $200</b> (терминал <span class="term" data-term="cccode">Claude Code</span>, работа 24/7). Подробнее — в разделе <span class="jump" data-go="subs" style="color:var(--mark);font-weight:600;cursor:pointer;border-bottom:1.5px dotted var(--sky-deep)">типы подписок</span>. Эти же способы работают для ChatGPT и Minimax.</div>
+
+    <p style="margin-top:16px;font-size:14px;color:var(--ink-soft)">Все сервисы и ссылки собраны на странице <span class="jump" data-go="src" style="color:var(--mark);font-weight:600;cursor:pointer;border-bottom:1.5px dotted var(--sky-deep)">Источники</span>.</p>
+
+    <div class="nextwrap"><button class="nextbtn" data-go="s4" data-done="3">Оплатил, к красным флагам <span class="a">→</span></button></div>
+  </div>
+</div>
+
+<!-- ============ STEP 4 · DON'TS ============ -->
+<div class="screen" id="s4">
+  <div class="stepbar"><div class="wrap in"><button class="back" data-go="hub">‹ Маршрут</button><div class="prog"><i style="width:100%"></i></div><span class="cnt">04/04</span></div></div>
+  <div class="wrap">
+    <div class="shead">
+      <span class="eyebrow">Шаг 04</span>
+      <h2>Чего не делать никогда</h2>
+      <p class="intro">Даже при полном соблюдении всех пунктов блокировка возможна — решение всегда за Anthropic. Но эти ошибки повышают риск в разы.</p>
+    </div>
+
+    <ul class="donts-list">
+      <li><span class="x">✕</span><span><b>Не смешивай всё сразу:</b> иностранная карта + сомнительный сервис + бесплатный VPN + скачущий IP. Почти гарантированный флаг.</span></li>
+      <li><span class="x">✕</span><span><b>Не меняй страну посреди настройки.</b> Одна страна на VPN, карту и регион — от начала до конца.</span></li>
+      <li><span class="x">✕</span><span><b>Не «отмывай» помеченный аккаунт</b> сменой VPN. Проще начать с чистого.</span></li>
+      <li><span class="x">✕</span><span><b>Не передавай и не перепродавай доступ.</b> Один человек — один аккаунт, одна карта.</span></li>
+      <li><span class="x">✕</span><span><b>Не запускай Claude Code до оплаты</b> и не гони 500+ запросов сразу после нее.</span></li>
+    </ul>
+
+    <div class="help">
+      <span class="eyebrow">Застрял?</span>
+      <h3>Напиши мне напрямую</h3>
+      <p>Если что-то пошло не так или остались вопросы по своей ситуации — пиши, помогу разобраться. Дальше, на консультации, разберем настройку аккаунта и базовые моменты, чтобы дойти до первых результатов.</p>
+      <a class="btn" href="https://t.me/ustikris" target="_blank" rel="noopener">Написать Крис <span class="a">→</span></a>
+    </div>
+
+    <div class="cta">
+      <div class="wrap">
+        <div class="eyebrow">Оплатил — и что дальше?</div>
+        <h2>Настроить Claude под себя</h2>
+        <p>Подписка это только вход. Показываю по шагам, как дойти до первого результата, у себя в канале.</p>
+        <a class="btn" href="https://t.me/ustikris" target="_blank" rel="noopener">Забрать следующий шаг <span style="color:var(--sky)">→</span></a>
+      </div>
+    </div>
+    <div class="nextwrap"><button class="nextbtn" data-go="hub">Вернуться к маршруту</button></div>
+  </div>
+</div>
+
+<!-- ============ FAQ ============ -->
+<div class="screen" id="faq">
+  <div class="stepbar"><div class="wrap in"><button class="back backref">‹ Назад</button><span class="cnt" style="margin-left:auto">FAQ</span></div></div>
+  <div class="wrap">
+    <div class="shead"><span class="eyebrow">Справка</span><h2>Частые вопросы</h2></div>
+    <div class="faq">
+      <div class="qa"><div class="q">Точно заблокируют, если сделать что-то не так?<span class="pm">+</span></div><div class="a"><p>Нет гарантии в обе стороны: даже всё правильно сделанный аккаунт могут заблокировать — решение всегда за Anthropic. Но прогрев и «одна карта — один аккаунт» снижают риск в разы.</p></div></div>
+      <div class="qa"><div class="q">Какой способ выбрать новичку?<span class="pm">+</span></div><div class="a"><p>Если просто попробовать — агрегаторы (быстро и дешево). Если у тебя айфон и хочешь минимум риска — App Store США. Если решил пользоваться постоянно — криптокарта с автопродлением.</p></div></div>
+      <div class="qa"><div class="q">Сколько это стоит в итоге?<span class="pm">+</span></div><div class="a"><p>Сама подписка: Pro — $20 в месяц, Max — $100 или $200. Плюс расходы на VPN и, для части способов, комиссия продавца или биржи. Через агрегатор выходит дешевле всего на старте.</p></div></div>
+      <div class="qa"><div class="q">Обязательно нужен свой сервер?<span class="pm">+</span></div><div class="a"><p>Нет. Сервер нужен только для агентского режима Claude Code 24/7. Чтобы просто пользоваться Claude в браузере — достаточно подписки.</p></div></div>
+      <div class="qa"><div class="q">Работает ли это для ChatGPT?<span class="pm">+</span></div><div class="a"><p>Да. Все три способа так же подходят для ChatGPT и Minimax — методы оплаты почти одинаковые.</p></div></div>
+      <div class="qa"><div class="q">У меня всё равно не получается<span class="pm">+</span></div><div class="a"><p>Напиши мне напрямую — <a class="lnk" href="https://t.me/ustikris" target="_blank" rel="noopener">@kris.usti</a>. Разберем твою ситуацию, а на консультации — настройку аккаунта и первые шаги дальше.</p></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ GLOSSARY ============ -->
+<div class="screen" id="gloss">
+  <div class="stepbar"><div class="wrap in"><button class="back backref">‹ Назад</button><span class="cnt" style="margin-left:auto">Словарь</span></div></div>
+  <div class="wrap">
+    <div class="shead"><span class="eyebrow">Если что-то непонятно</span><h2>Словарь терминов</h2></div>
+    <div class="gloss">
+      <dl class="gterm" id="g-vpn"><dt>VPN с выделенным IP</dt><dd>Сервис, подменяющий твой интернет-адрес на адрес другой страны. «Выделенный» — значит адрес только твой, а не общий на сотню людей: так меньше поводов для блокировки.</dd></dl>
+      <dl class="gterm" id="g-esim"><dt>eSIM</dt><dd>Виртуальная сим-карта: номер живет в телефоне без пластика. Нужен, чтобы принять код подтверждения.</dd></dl>
+      <dl class="gterm" id="g-kyc"><dt>KYC</dt><dd>Проверка личности по паспорту и селфи. «Без KYC» — номер выдают без этой проверки.</dd></dl>
+      <dl class="gterm" id="g-webrtc"><dt>WebRTC</dt><dd>Технология в браузере, которая иногда выдает твой настоящий адрес даже при включенном VPN. Ее отключают, чтобы этого не случилось.</dd></dl>
+      <dl class="gterm" id="g-agg"><dt>Агрегатор</dt><dd>Площадка, где продавцы активируют подписку за рубли: Plati Market, GGSel, FunPay.</dd></dl>
+      <dl class="gterm" id="g-cc"><dt>Криптокарта</dt><dd>Виртуальная карта криптобиржи, которой платишь в интернете как обычной.</dd></dl>
+      <dl class="gterm" id="g-cccode"><dt>Claude Code</dt><dd>Claude в терминале, работающий как агент: сам читает файлы и выполняет задачи. Доступен на тарифе Max.</dd></dl>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SOURCES ============ -->
+<div class="screen" id="src">
+  <div class="stepbar"><div class="wrap in"><button class="back backref">‹ Назад</button><span class="cnt" style="margin-left:auto">Источники</span></div></div>
+  <div class="wrap">
+    <div class="shead"><span class="eyebrow">Все ссылки в одном месте</span><h2>Источники и сервисы</h2>
+      <p class="intro">Сервисы, о которых шла речь в гайде — чтобы понимать, что где искать. Открываются в новой вкладке.</p>
+    </div>
+
+    <div class="srcgrp">
+      <h4>VPN и доступ</h4>
+      <a class="srclink" href="https://amnezia.org" target="_blank" rel="noopener"><span class="d"><b>Amnezia VPN</b><small>клиент: Premium или свой VPS</small><span class="u">amnezia.org</span></span><span class="go">↗</span></a>
+      <a class="srclink" href="https://nordvpn.com" target="_blank" rel="noopener"><span class="d"><b>NordVPN · выделенный IP</b><small>коммерческий VPN, адрес только твой</small><span class="u">nordvpn.com</span></span><span class="go">↗</span></a>
+      <a class="srclink" href="https://www.netcup.com" target="_blank" rel="noopener"><span class="d"><b>Netcup / Hetzner</b><small>VPS под свой VPN, от €4/мес</small><span class="u">netcup.com</span></span><span class="go">↗</span></a>
+    </div>
+
+    <div class="srcgrp">
+      <h4>Проверка перед стартом</h4>
+      <a class="srclink" href="https://ifconfig.me" target="_blank" rel="noopener"><span class="d"><b>ifconfig.me</b><small>какой у тебя сейчас IP и страна</small><span class="u">ifconfig.me</span></span><span class="go">↗</span></a>
+      <a class="srclink" href="https://whoer.net" target="_blank" rel="noopener"><span class="d"><b>Whoer</b><small>проверить утечки DNS и WebRTC</small><span class="u">whoer.net</span></span><span class="go">↗</span></a>
+    </div>
+
+    <div class="srcgrp">
+      <h4>Почта</h4>
+      <a class="srclink" href="https://accounts.google.com/signup" target="_blank" rel="noopener"><span class="d"><b>Google · регистрация</b><small>создать новый Gmail под Claude</small><span class="u">accounts.google.com/signup</span></span><span class="go">↗</span></a>
+      <a class="srclink" href="https://ggsel.net" target="_blank" rel="noopener"><span class="d"><b>GGSel · готовый Gmail</b><small>купить прогретый ящик, если не хочешь возиться</small><span class="u">ggsel.net</span></span><span class="go">↗</span></a>
+    </div>
+
+    <div class="srcgrp">
+      <h4>Номер для СМС</h4>
+      <a class="srclink" href="https://hero-sms.com/ru" target="_blank" rel="noopener"><span class="d"><b>Hero SMS</b><small>разовый виртуальный номер</small><span class="u">hero-sms.com</span></span><span class="go">↗</span></a>
+      <a class="srclink" href="https://grizzlysms.com" target="_blank" rel="noopener"><span class="d"><b>Grizzly SMS</b><small>разовый виртуальный номер</small><span class="u">grizzlysms.com</span></span><span class="go">↗</span></a>
+      <a class="srclink" href="https://ggsel.net" target="_blank" rel="noopener"><span class="d"><b>GGSel · eSIM Казахстана</b><small>постоянный номер без KYC</small><span class="u">ggsel.net</span></span><span class="go">↗</span></a>
+    </div>
+
+    <div class="srcgrp">
+      <h4>Оплата подписки</h4>
+      <a class="srclink" href="https://plati.market" target="_blank" rel="noopener"><span class="d"><b>Plati Market</b><small>агрегатор: активация за рубли</small><span class="u">plati.market</span></span><span class="go">↗</span></a>
+      <a class="srclink" href="https://funpay.com" target="_blank" rel="noopener"><span class="d"><b>FunPay</b><small>агрегатор: активация за рубли</small><span class="u">funpay.com</span></span><span class="go">↗</span></a>
+      <a class="srclink" href="https://t-j.ru/apple-region/" target="_blank" rel="noopener"><span class="d"><b>Смена региона App Store</b><small>инструкция для способа через App Store США</small><span class="u">t-j.ru/apple-region</span></span><span class="go">↗</span></a>
+      <a class="srclink" href="https://www.bybit.com" target="_blank" rel="noopener"><span class="d"><b>Bybit</b><small>криптобиржа с картой для оплаты напрямую</small><span class="u">bybit.com</span></span><span class="go">↗</span></a>
+    </div>
+
+    <div class="srcgrp">
+      <h4>Свой сервер · для Claude Code 24/7</h4>
+      <a class="srclink" href="https://www.hetzner.com/cloud" target="_blank" rel="noopener"><span class="d"><b>Hetzner Cloud</b><small>Финляндия/Германия, от €7/мес</small><span class="u">hetzner.com/cloud</span></span><span class="go">↗</span></a>
+      <a class="srclink" href="https://timeweb.cloud" target="_blank" rel="noopener"><span class="d"><b>Timeweb Cloud</b><small>Нидерланды/Польша, от 900₽/мес</small><span class="u">timeweb.cloud</span></span><span class="go">↗</span></a>
+      <a class="srclink" href="https://www.digitalocean.com" target="_blank" rel="noopener"><span class="d"><b>DigitalOcean</b><small>Амстердам/Франкфурт, от $24/мес</small><span class="u">digitalocean.com</span></span><span class="go">↗</span></a>
+    </div>
+
+    <div class="srcgrp">
+      <h4>Официально</h4>
+      <a class="srclink" href="https://claude.ai" target="_blank" rel="noopener"><span class="d"><b>Claude</b><small>сам сервис</small><span class="u">claude.ai</span></span><span class="go">↗</span></a>
+      <a class="srclink" href="https://support.anthropic.com" target="_blank" rel="noopener"><span class="d"><b>Поддержка Anthropic</b><small>официальная справка</small><span class="u">support.anthropic.com</span></span><span class="go">↗</span></a>
+    </div>
+
+    <div class="note">Ссылки ведут на официальные сайты сервисов, без партнерских меток. Выбор конкретного VPN и сервера остается за тобой — бери платный, с выделенным IP.</div>
+  </div>
+</div>
+
+<script>
+  var body=document.body, menu=document.getElementById('menu'), burger=document.getElementById('burger');
+
+  function closeMenu(){menu.classList.remove('open');burger.classList.remove('x')}
+  burger.addEventListener('click',function(){menu.classList.toggle('open');burger.classList.toggle('x')});
+
+  // reference screens remember where you came from
+  var REF={gloss:1,faq:1,src:1,subs:1};
+  var current='hub', refBack='hub';
+
+  function show(id){
+    if(REF[id] && !REF[current]) refBack=current;
+    document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('on')});
+    var el=document.getElementById(id); if(el){el.classList.add('on');current=id;}
+    closeMenu(); window.scrollTo({top:0,behavior:'instant'in window?'instant':'auto'});
+  }
+  document.querySelectorAll('[data-go]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var done=b.getAttribute('data-done'); if(done)markDone(done);
+      var prep=b.getAttribute('data-prep'); if(prep)markPrep(prep);
+      show(b.getAttribute('data-go'));
+    });
+  });
+  // "back" on reference screens returns to origin
+  document.querySelectorAll('.backref').forEach(function(b){
+    b.addEventListener('click',function(){show(refBack)});
+  });
+
+  // term -> glossary
+  document.querySelectorAll('.term').forEach(function(t){
+    t.addEventListener('click',function(e){
+      e.stopPropagation();
+      var id='g-'+t.getAttribute('data-term');
+      show('gloss');
+      document.querySelectorAll('.gterm').forEach(function(g){g.classList.remove('hl')});
+      var g=document.getElementById(id);
+      if(g){g.classList.add('hl');setTimeout(function(){g.scrollIntoView({behavior:'smooth',block:'center'})},60)}
+    });
+  });
+
+  // interactive checklist (persisted) + wizard prefill
+  var CK='kris_claude_prep';
+  var state={}; try{state=JSON.parse(localStorage.getItem(CK)||'{}')}catch(e){state={}}
+  var items=document.querySelectorAll('#prepCheck .citem');
+  function saveState(){try{localStorage.setItem(CK,JSON.stringify(state))}catch(e){}}
+  function renderCheck(){
+    var n=0;
+    items.forEach(function(it){
+      var k=it.getAttribute('data-k');
+      if(state[k]){it.classList.add('done');n++}else{it.classList.remove('done')}
+    });
+    var c=document.getElementById('prepCnt'), p=document.getElementById('prepPb');
+    if(c)c.textContent=n+' / '+items.length;
+    if(p)p.style.width=(n/items.length*100)+'%';
+  }
+  function markPrep(list){
+    list.split(',').forEach(function(k){k=k.trim();if(k)state[k]=true});
+    saveState(); renderCheck();
+  }
+  items.forEach(function(it){
+    it.addEventListener('click',function(e){
+      if(e.target.closest('.term'))return;
+      var k=it.getAttribute('data-k'); state[k]=!state[k];
+      saveState(); renderCheck();
+    });
+  });
+  renderCheck();
+
+  // hub step completion marks
+  var DK='kris_claude_done';
+  var doneState={}; try{doneState=JSON.parse(localStorage.getItem(DK)||'{}')}catch(e){doneState={}}
+  function renderDone(){
+    document.querySelectorAll('#hubSteps .scard').forEach(function(c){
+      var i=c.querySelector('.idx').getAttribute('data-idx');
+      if(doneState[i])c.classList.add('done');else c.classList.remove('done');
+    });
+  }
+  function markDone(i){doneState[i]=true;try{localStorage.setItem(DK,JSON.stringify(doneState))}catch(e){}renderDone()}
+  renderDone();
+
+  // payment tabs
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click',function(){
+      var id=tab.getAttribute('data-t');
+      document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on')});
+      document.querySelectorAll('.panel').forEach(function(x){x.classList.remove('on')});
+      tab.classList.add('on');
+      document.querySelector('.panel[data-p="'+id+'"]').classList.add('on');
+    });
+  });
+
+  // warmup toggle
+  document.querySelectorAll('.toggle button').forEach(function(b){
+    b.addEventListener('click',function(){
+      var d=b.getAttribute('data-d');
+      document.querySelectorAll('.toggle button').forEach(function(x){x.classList.remove('on')});
+      document.querySelectorAll('.day').forEach(function(x){x.classList.remove('on')});
+      b.classList.add('on');
+      document.querySelector('.day[data-day="'+d+'"]').classList.add('on');
+    });
+  });
+
+  // FAQ / deep-dive accordion
+  document.querySelectorAll('.qa .q').forEach(function(q){
+    q.addEventListener('click',function(){
+      var qa=q.parentElement, a=qa.querySelector('.a');
+      var open=qa.classList.contains('open');
+      document.querySelectorAll('.qa').forEach(function(x){x.classList.remove('open');x.querySelector('.a').style.maxHeight=null});
+      if(!open){qa.classList.add('open');a.style.maxHeight=a.scrollHeight+'px'}
+    });
+  });
+
+  // copy
+  document.querySelectorAll('.cbtn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var el=document.getElementById(btn.getAttribute('data-cp'));
+      navigator.clipboard.writeText(el.innerText).then(function(){
+        var old=btn.textContent;btn.textContent='Скопировано';btn.classList.add('done');
+        setTimeout(function(){btn.textContent=old;btn.classList.remove('done')},1600);
+      });
+    });
+  });
+</script>
+</body>
+</html>

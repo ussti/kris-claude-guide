@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Карусель · Claude из России</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --frame:#14110e;      /* dark photo frame */
+    --solid:#2a211c;      /* solid CTA slide */
+    --warm:#9a6d4f;       /* warm accent pill */
+    --mark:#ffffff;       /* underline + arrows */
+    --hand:#8a8479;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#e7e4df;font-family:'Inter',system-ui,sans-serif;
+    font-weight:500;-webkit-font-smoothing:antialiased;padding:24px 0 60px}
+  .fancy{font-family:'Playfair Display',serif;font-style:italic;font-weight:500}
+
+  .stage{max-width:432px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+  .cap{max-width:432px;margin:0 auto 18px;font-size:13px;color:#6d675e;line-height:1.5;
+    padding:0 6px}
+  .cap b{color:#2a211c}
+
+  /* 4:5 slide */
+  .slide{position:relative;width:100%;aspect-ratio:1080/1350;border-radius:16px;overflow:hidden;
+    background:var(--frame);color:#fff;box-shadow:0 14px 34px rgba(0,0,0,.22);
+    display:flex;flex-direction:column;justify-content:flex-end;padding:52px 46px 46px}
+  .slide.solid{background:var(--solid)}
+
+  /* photo placeholder marker */
+  .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    background:
+      repeating-linear-gradient(-45deg,rgba(255,255,255,.03) 0 18px,rgba(255,255,255,.06) 18px 36px);
+    z-index:0}
+  .ph span{font-family:'Playfair Display';font-style:italic;font-size:15px;color:rgba(255,255,255,.32);
+    border:1px dashed rgba(255,255,255,.22);border-radius:40px;padding:8px 18px}
+  /* cinematic scrim (moody + bottom) */
+  .scrim{position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:linear-gradient(180deg,rgba(0,0,0,.28) 0%,rgba(0,0,0,0) 34%,rgba(0,0,0,.62) 100%),
+      radial-gradient(120% 80% at 50% 8%,rgba(0,0,0,.34),rgba(0,0,0,0) 60%)}
+  .content{position:relative;z-index:2}
+
+  /* text */
+  .eye{font-family:'Playfair Display';font-style:italic;font-size:19px;color:#fff;opacity:.92;
+    margin-bottom:14px;text-shadow:0 1px 12px rgba(0,0,0,.55)}
+  h1{font-weight:700;letter-spacing:-.02em;line-height:1.0;
+    text-shadow:0 2px 16px rgba(0,0,0,.6),0 0 3px rgba(0,0,0,.5)}
+  .xl{font-size:46px}
+  .lg{font-size:37px}
+  .md{font-size:30px;line-height:1.03}
+  .body{font-size:20px;font-weight:500;line-height:1.12;margin-top:26px;opacity:.96;
+    text-shadow:0 1px 12px rgba(0,0,0,.55),0 0 3px rgba(0,0,0,.5)}
+  .kick{font-family:'Playfair Display';font-style:italic;font-size:22px;margin-top:22px;opacity:.95;
+    text-shadow:0 1px 12px rgba(0,0,0,.55)}
+  .num{font-family:'Playfair Display';font-style:italic;font-size:60px;line-height:.95;color:#fff;
+    opacity:.9;margin-bottom:8px;text-shadow:0 2px 16px rgba(0,0,0,.6)}
+
+  u{text-decoration:none;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='12' viewBox='0 0 100 12' preserveAspectRatio='none'%3E%3Cpath d='M2 10 Q 26 4 50 6.5 T 98 2' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat left bottom;
+    background-size:100% 10px;padding-bottom:8px;
+    -webkit-box-decoration-break:clone;box-decoration-break:clone}
+
+  /* page number */
+  .pg{position:absolute;top:26px;right:34px;z-index:3;font-weight:500;font-size:22px;opacity:.9;
+    text-shadow:0 1px 10px rgba(0,0,0,.5)}
+  /* handle */
+  .handle{position:absolute;left:46px;bottom:34px;z-index:3;font-size:15px;line-height:1.2;
+    opacity:.9;text-shadow:0 1px 10px rgba(0,0,0,.5)}
+  .handle.hi{opacity:.95}
+  .slide.solid .handle{color:#d8cfc6}
+
+  /* arrow next */
+  .go{position:absolute;right:44px;bottom:34px;z-index:3;font-size:30px;opacity:.9;
+    text-shadow:0 1px 10px rgba(0,0,0,.5)}
+
+  /* CTA pill */
+  .pill{display:inline-flex;align-items:center;gap:10px;margin-top:26px;
+    border-radius:999px;background:rgba(20,17,14,.72);border:1px solid rgba(255,255,255,.35);
+    font-weight:600;font-size:17px;letter-spacing:.02em;text-transform:uppercase;padding:15px 24px}
+  .hl{display:inline-block;background:var(--warm);color:#fff;padding:2px 12px;border-radius:6px;
+    transform:rotate(-2deg)}
+  .step-tag{font-family:'Playfair Display';font-style:italic;font-size:24px;opacity:.9;
+    text-shadow:0 1px 12px rgba(0,0,0,.55)}
+</style>
+</head>
+<body>
+
+<div class="cap">Черновик карусели по лидмагниту «Claude из России». <b>Фото — плейсхолдеры</b>: перетащишь свои в Claude Design (каждый слайд 1080×1350). Текст на TOV, правь что угодно.</div>
+
+<div class="stage">
+
+  <!-- 1 · COVER -->
+  <div class="slide">
+    <div class="ph"><span>фото · обложка</span></div>
+    <div class="scrim"></div>
+    <span class="pg">1/8</span>
+    <div class="content">
+      <div class="eye">гайд · старт с нуля</div>
+      <h1 class="xl">Claude из России —<br>с нуля и <u>без блокировок</u></h1>
+      <div class="kick">оплата — первый барьер, где застревают почти все. разберём по шагам.</div>
+    </div>
+    <div class="handle hi">крис · @kris.usti<br>ии для обычных людей</div>
+    <span class="go">→</span>
+  </div>
+
+  <!-- 2 · PROBLEM -->
+  <div class="slide">
+    <div class="ph"><span>фото · нейтральный кадр</span></div>
+    <div class="scrim"></div>
+    <span class="pg">2/8</span>
+    <div class="content">
+      <h1 class="lg">Дело не в том,<br>что это <u>сложно</u></h1>
+      <div class="body">Просто никто не разложил: что нужно, в каком порядке и где легко словить блок. Отсюда и ощущение, что «ничего не работает».</div>
+    </div>
+    <div class="handle">крис · @kris.usti<br>ии для обычных людей</div>
+    <span class="go">→</span>
+  </div>
+
+  <!-- 3 · STEP 1 -->
+  <div class="slide">
+    <div class="ph"><span>фото · рабочий стол</span></div>
+    <div class="scrim"></div>
+    <span class="pg">3/8</span>
+    <div class="content">
+      <div class="step-tag">1/ подготовка</div>
+      <h1 class="md" style="margin-top:12px">Собрать базу<br><u>до старта</u></h1>
+      <div class="body">VPN с одной страной ЕС, отдельная почта под Claude и номер для СМС. Один вечер — и фундамент готов.</div>
+    </div>
+    <div class="handle">крис · @kris.usti</div>
+    <span class="go">→</span>
+  </div>
+
+  <!-- 4 · STEP 2 -->
+  <div class="slide">
+    <div class="ph"><span>фото · спокойный кадр</span></div>
+    <div class="scrim"></div>
+    <span class="pg">4/8</span>
+    <div class="content">
+      <div class="step-tag">2/ прогрев</div>
+      <h1 class="md" style="margin-top:12px">Дать аккаунту<br><u>пожить</u></h1>
+      <div class="body">Свежий аккаунт, который сразу платит, для системы выглядит купленным на перепродажу. Два спокойных дня — и риск падает в разы.</div>
+    </div>
+    <div class="handle">крис · @kris.usti</div>
+    <span class="go">→</span>
+  </div>
+
+  <!-- 5 · STEP 3 -->
+  <div class="slide">
+    <div class="ph"><span>фото · телефон/оплата</span></div>
+    <div class="scrim"></div>
+    <span class="pg">5/8</span>
+    <div class="content">
+      <div class="step-tag">3/ оплата</div>
+      <h1 class="md" style="margin-top:12px">Три рабочих<br><u>способа</u></h1>
+      <div class="body">От самого простого до самого выгодного вдолгую: агрегаторы, App Store США, криптокарта. В гайде — по шагам с готовыми ссылками.</div>
+    </div>
+    <div class="handle">крис · @kris.usti</div>
+    <span class="go">→</span>
+  </div>
+
+  <!-- 6 · STEP 4 -->
+  <div class="slide">
+    <div class="ph"><span>фото · крупный план</span></div>
+    <div class="scrim"></div>
+    <span class="pg">6/8</span>
+    <div class="content">
+      <div class="step-tag">4/ грабли</div>
+      <h1 class="md" style="margin-top:12px">Не наступить<br>на <u>красные флаги</u></h1>
+      <div class="body">Иностранная карта, скачущий IP и бесплатный VPN разом — почти гарантированный блок. В гайде собрала, чего не делать никогда.</div>
+    </div>
+    <div class="handle">крис · @kris.usti</div>
+    <span class="go">→</span>
+  </div>
+
+  <!-- 7 · TRUST -->
+  <div class="slide">
+    <div class="ph"><span>фото · портрет Крис</span></div>
+    <div class="scrim"></div>
+    <span class="pg">7/8</span>
+    <div class="content">
+      <div class="eye">почему мне можно верить</div>
+      <h1 class="lg">Я не из <u>айти</u></h1>
+      <div class="body">Три года назад я так же зависала над сотней вкладок с нейронками и не понимала, за что хвататься. Прошла весь путь сама и собрала только то, что реально нужно на старте.</div>
+    </div>
+    <div class="handle">крис · @kris.usti</div>
+    <span class="go">→</span>
+  </div>
+
+  <!-- 8 · CTA -->
+  <div class="slide solid">
+    <span class="pg" style="opacity:.55">8/8</span>
+    <div class="content">
+      <div class="eye" style="color:#c9a98f">твой следующий шаг</div>
+      <h1 class="lg">Забери <span class="hl">полный гайд</span><br>по шагам</h1>
+      <div class="body" style="color:#e4dcd2">Интерактивный онбординг проведёт за руку и сам подставит все ссылки — от нуля до подписки.</div>
+      <div class="pill">напиши «клод» в директ →</div>
+    </div>
+    <div class="handle">крис · @kris.usti<br>ии для обычных людей</div>
+  </div>
+
+</div>
+</body>
+</html>
