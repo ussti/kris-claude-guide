@@ -225,9 +225,17 @@
   /* result */
   .resbox{margin-top:22px;background:var(--card);border:1px solid var(--sky-deep);
     box-shadow:0 0 0 1px var(--sky-deep) inset;border-radius:var(--r);padding:24px 20px}
-  .resbox .lead{font-family:'Playfair Display';font-style:italic;color:var(--sky-deep);font-size:15px}
-  .resbox h2{font-size:24px;margin-top:8px}
-  .resbox .mode{margin-top:14px;font-size:15px;color:var(--ink-soft);line-height:1.5}
+  .resbox .lead{font-family:'Playfair Display';font-style:italic;color:var(--sky-deep);font-size:15px;margin-bottom:6px}
+  .resline{display:flex;align-items:baseline;gap:12px;padding:10px 0;border-top:1.5px solid #CFE7F0}
+  .resline .rk{font-family:'JetBrains Mono';font-size:11px;text-transform:uppercase;letter-spacing:.04em;
+    color:var(--ink-soft);width:88px;flex:none}
+  .resline b{font-size:19px;font-weight:800;letter-spacing:-.01em}
+  .resline span:not(.rk){font-size:15px}
+  .reswhy{margin-top:12px;font-size:14px;color:var(--ink-soft);line-height:1.5}
+  .resstep{margin-top:14px;padding-top:12px;border-top:1.5px solid #CFE7F0;font-size:14px;line-height:1.5}
+  .resstep .cap{display:block;font-family:'JetBrains Mono';font-size:11px;text-transform:uppercase;
+    letter-spacing:.04em;color:var(--mark);margin-bottom:4px}
+  :root[data-theme="dark"] .resline,:root[data-theme="dark"] .resstep{border-top-color:#2E5561}
 
   /* CTA */
   .cta{margin-top:32px;background:var(--sky);border-radius:var(--r);padding:26px 22px}
@@ -377,7 +385,7 @@
       <div class="pills"><span class="pill">ChatGPT</span><span class="pill">Projects</span><span class="pill">ChatGPT Work</span><span class="pill">Codex</span></div></button>
     <button class="tcard hot" data-go="tr-anthropic"><div class="top"><b>Anthropic</b><span class="go">→</span></div>
       <div class="desc"><span class="ph">[Для кого / чем силён. Ведёт во второй магнит.]</span></div>
-      <div class="pills"><span class="pill">Claude</span><span class="pill">Cowork</span><span class="pill">Claude Code</span></div></button>
+      <div class="pills"><span class="pill">Claude</span><span class="pill">Cowork</span><span class="pill">Claude Code</span><span class="pill">Claude Design</span></div></button>
     <button class="tcard" data-go="tr-china"><div class="top"><b>Китайцы + РФ</b><span class="go">→</span></div>
       <div class="desc"><span class="ph">[Коротко и честно: дешевле, но новичку рано. Где предел.]</span></div>
       <div class="pills"><span class="pill">DeepSeek</span><span class="pill">Minimax</span><span class="pill">Qwen</span><span class="pill">ИИ в РФ</span></div></button>
@@ -398,7 +406,7 @@
 
 <div class="screen" id="tr-anthropic"><div class="wrap"><section>
   <div class="shead"><span class="eyebrow">трек</span><h2>Anthropic</h2></div>
-  <div class="note"><span class="ph">[Что это, для кого. Быстро — Claude / Cowork; вглубь — Claude Code (терминал). А для РФ есть отдельный подробный гайд ↓]</span></div>
+  <div class="note"><span class="ph">[Что это, для кого. Быстро — Claude / Cowork; визуал (посты, карусели, презентации) — Claude Design; вглубь — Claude Code (терминал). А для РФ есть отдельный подробный гайд ↓]</span></div>
   <div style="margin-top:22px"><button class="btn block sky" data-go="guide">Настройка Claude из РФ (2-й магнит) <span class="go">→</span></button></div>
   <div style="margin-top:12px"><button class="btn ghost" data-go="tracks">← К трекам</button></div>
 </section></div></div>
@@ -425,9 +433,12 @@
 <div class="screen" id="qresult"><div class="wrap"><section>
   <div class="shead"><span class="eyebrow">готово</span><h2>Твой старт</h2></div>
   <div class="resbox">
-    <div class="lead">рекомендованный трек</div>
-    <h2 id="resTrack">—</h2>
-    <div class="mode" id="resMode"></div>
+    <div class="lead">твой старт</div>
+    <div class="resline"><span class="rk">трек</span><b id="resTrack">—</b></div>
+    <div class="resline"><span class="rk">инструмент</span><b id="resTool">—</b></div>
+    <div class="resline"><span class="rk">режим</span><span id="resMode">—</span></div>
+    <p class="reswhy" id="resWhy"></p>
+    <div class="resstep"><span class="cap">первый шаг</span><span class="ph">[1 конкретное действие под этот инструмент — заглушка, впишу в копирайте]</span></div>
   </div>
   <div style="margin-top:20px"><button class="btn block sky" id="resGo">Перейти к треку <span class="go">→</span></button></div>
   <div style="margin-top:12px"><button class="btn ghost block" data-go="quiz">Пройти заново</button></div>
@@ -478,26 +489,51 @@
     var b=e.target.closest('[data-go]'); if(b)show(b.getAttribute('data-go'));
   });
 
-  /* ---- QUIZ ---- */
+  /* ---- QUIZ: diagnostic, maps to a concrete tool ---- */
   var Q=[
-    {q:'Что ближе к твоей задаче?',
-     opts:[{t:'Тексты, идеи, общение, обучение',s:'письмо, разбор, планирование',v:{a:1,o:1}},
-           {t:'Код, автоматизации, свои инструменты',s:'разработка, агенты',v:{a:1,o:1,deep:1}},
-           {t:'Картинки, дизайн, презентации',s:'визуал',v:{o:1}}]},
-    {q:'Насколько глубоко хочешь зайти?',
-     opts:[{t:'Быстро попробовать в чате',s:'без терминала',v:{fast:1}},
-           {t:'Настроить рабочий процесс',s:'готов разбираться',v:{deep:1}}]},
-    {q:'Терминал тебя пугает?',
-     opts:[{t:'Да, хочу попроще',s:'Cowork / ChatGPT Work',v:{fast:1}},
-           {t:'Нет, готов освоить',s:'Codex / Claude Code',v:{deep:1}}]},
-    {q:'На чьей экосистеме удобнее начать?',
-     opts:[{t:'Anthropic (Claude)',s:'рассуждения, код',v:{a:2}},
-           {t:'OpenAI (ChatGPT)',s:'универсально, мультимодально',v:{o:2}},
-           {t:'Без разницы — реши за меня',s:'',v:{a:1,o:1}}]}
+    {key:'task', q:'Что ты хочешь делать в первую очередь?',
+     opts:[
+       {t:'Писать и думать',s:'тексты, разборы, обучение, планы',v:'text'},
+       {t:'Код и автоматизации',s:'свои инструменты, боты, агенты',v:'code'},
+       {t:'Визуал и дизайн',s:'посты, карусели, презентации',v:'visual'},
+       {t:'Рабочие процессы',s:'данные, документы, задачи',v:'work'}]},
+    {key:'mode', q:'Насколько глубоко хочешь зайти прямо сейчас?',
+     opts:[
+       {t:'Быстрый результат',s:'в готовом удобном приложении, без терминала',v:'fast'},
+       {t:'Настроить инструмент под себя',s:'готов зайти глубже, терминал не пугает',v:'deep'}]},
+    {key:'eco', q:'На чьей экосистеме удобнее начать?',
+     opts:[
+       {t:'Anthropic · Claude',s:'рассуждения, код, дизайн',v:'anthropic'},
+       {t:'OpenAI · ChatGPT',s:'универсально, привычно, мультимодально',v:'openai'},
+       {t:'Пока без разницы',s:'реши за меня',v:'any'}]}
   ];
-  var qi=0, score={a:0,o:0,fast:0,deep:0};
+  var qi=0, ans={};
+  function decide(a){
+    // visual pins Anthropic + Claude Design regardless of ecosystem
+    if(a.task==='visual'){
+      return {track:'Anthropic', tool:'Claude Design', mode:'визуал', go:'tr-anthropic',
+        why:'Для постов, каруселей и презентаций Claude Design — самый сильный инструмент.'};
+    }
+    var eco = a.eco==='any' ? (a.task==='work' ? 'openai' : 'anthropic') : a.eco;
+    var track = eco==='openai' ? 'OpenAI' : 'Anthropic';
+    var deep = a.mode==='deep';
+    var map={
+      OpenAI:{ text:{fast:'ChatGPT', deep:'ChatGPT + Projects'},
+               code:{fast:'ChatGPT Work', deep:'Codex · терминал'},
+               work:{fast:'ChatGPT Work', deep:'ChatGPT Work'} },
+      Anthropic:{ text:{fast:'Claude', deep:'Claude + стиль/Projects'},
+               code:{fast:'Claude Cowork', deep:'Claude Code · терминал'},
+               work:{fast:'Claude Cowork', deep:'Claude Code'} }
+    };
+    var tool = map[track][a.task][deep?'deep':'fast'];
+    var why = a.eco==='any'
+      ? 'Экосистему подобрал под задачу — можно начать и с другой, разница на старте небольшая.'
+      : 'Совпало с твоим выбором экосистемы и глубиной входа.';
+    return {track:track, tool:tool, mode: deep?'вглубь · терминал':'быстро · без терминала',
+      go: track==='OpenAI'?'tr-openai':'tr-anthropic', why:why};
+  }
   function renderQ(){
-    var pb=document.getElementById('qpb'); pb.style.width=((qi)/Q.length*100)+'%';
+    document.getElementById('qpb').style.width=(qi/Q.length*100)+'%';
     var item=Q[qi];
     var h='<div class="qstep"><b>Вопрос '+(qi+1)+' / '+Q.length+'</b><h2>'+item.q+'</h2></div><div class="opts">';
     item.opts.forEach(function(o,idx){
@@ -507,8 +543,7 @@
     document.getElementById('qbody').innerHTML=h;
     document.querySelectorAll('#qbody .opt').forEach(function(btn){
       btn.addEventListener('click',function(){
-        var o=item.opts[+btn.getAttribute('data-i')];
-        for(var k in o.v){score[k]=(score[k]||0)+o.v[k]}
+        ans[item.key]=item.opts[+btn.getAttribute('data-i')].v;
         qi++;
         if(qi<Q.length){renderQ()}else{finishQuiz()}
       });
@@ -516,21 +551,18 @@
   }
   function finishQuiz(){
     document.getElementById('qpb').style.width='100%';
-    var track = score.a>=score.o ? 'Anthropic' : 'OpenAI';
-    var goId  = score.a>=score.o ? 'tr-anthropic' : 'tr-openai';
-    var deep  = score.deep>=score.fast;
-    document.getElementById('resTrack').textContent=track;
-    document.getElementById('resMode').innerHTML= deep
-      ? 'Режим входа: <b>вглубь</b> — терминал ('+(track==='Anthropic'?'Claude Code':'Codex')+'). Настраиваем рабочий процесс.'
-      : 'Режим входа: <b>быстро</b> — '+(track==='Anthropic'?'Claude / Cowork':'ChatGPT / ChatGPT Work')+', без терминала.';
-    document.getElementById('resGo').setAttribute('data-go',goId);
-    qi=0; score={a:0,o:0,fast:0,deep:0};
+    var r=decide(ans);
+    document.getElementById('resTrack').textContent=r.track;
+    document.getElementById('resTool').textContent=r.tool;
+    document.getElementById('resMode').textContent=r.mode;
+    document.getElementById('resWhy').textContent=r.why;
+    document.getElementById('resGo').setAttribute('data-go',r.go);
+    qi=0; ans={};
     show('qresult');
   }
-  document.querySelector('[data-go="quiz"]');
   // reset & render quiz whenever entering it
   var _show=show;
-  show=function(id){ _show(id); if(id==='quiz'){qi=0;score={a:0,o:0,fast:0,deep:0};renderQ();} };
+  show=function(id){ _show(id); if(id==='quiz'){qi=0;ans={};renderQ();} };
 </script>
 </body>
 </html>
