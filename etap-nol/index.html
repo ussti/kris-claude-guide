@@ -39,7 +39,7 @@
     display:flex;align-items:center;justify-content:space-between}
   .brand{font-weight:700;font-size:15px;letter-spacing:-.01em;cursor:pointer}
   .brand i{font-family:'Playfair Display';font-style:italic;font-weight:500;color:var(--sky-deep)}
-  .burger{width:42px;height:38px;border:1px solid var(--line);border-radius:10px;
+  .burger{width:42px;height:38px;border:1px solid #CFE7F0;border-radius:10px;
     background:var(--card);display:flex;flex-direction:column;justify-content:center;
     align-items:center;gap:4px;cursor:pointer;padding:0}
   .burger span{width:18px;height:2px;background:var(--ink);border-radius:2px;transition:.2s}
@@ -93,31 +93,74 @@
   .btn.block{display:flex;width:100%;justify-content:center}
   .btn .go{font-size:19px}
 
-  /* floors (market) */
   .floors{margin-top:22px;display:flex;flex-direction:column;gap:12px}
-  .floor{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
-    padding:18px;display:flex;gap:15px;align-items:flex-start}
-  .floor .lvl{font-family:'JetBrains Mono';font-size:13px;color:#fff;background:var(--ink);
-    width:32px;height:32px;border-radius:9px;flex:none;display:flex;align-items:center;justify-content:center}
-  .floor.harness .lvl{background:var(--sky-deep)}
-  .floor .tx b{display:block;font-size:17px;font-weight:700;letter-spacing:-.01em}
-  .floor .tx small{color:var(--ink-soft);font-size:14px;display:block;margin-top:4px;line-height:1.45}
   .note{margin-top:18px;background:var(--paper-2);border-left:3px solid var(--sky-deep);
     border-radius:10px;padding:16px 18px;font-size:14.5px;color:var(--ink-soft);line-height:1.5}
 
-  /* map: company != app != model */
-  .map{margin-top:20px;display:flex;flex-direction:column;gap:12px}
-  .maprow{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px}
-  .maprow .co{font-weight:800;font-size:16px}
-  .chain{margin-top:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;
-    font-family:'JetBrains Mono';font-size:13px}
-  .chain .cell{background:var(--paper-2);border:1px solid var(--line);border-radius:8px;padding:6px 10px}
-  .chain .arr{color:var(--mark);font-weight:700}
-  .accent{border-color:var(--sky-deep);box-shadow:0 0 0 1px var(--sky-deep) inset}
+  /* ===== TOWER (market levels) — hierarchy bottom→top ===== */
+  .tower{margin-top:24px;display:flex;flex-direction:column-reverse;gap:0}
+  .tw{position:relative;padding:16px 16px 16px 56px;border-radius:12px;margin:6px 0;
+    border:2px solid;transition:.15s}
+  /* connector spine between levels */
+  .tw:before{content:"";position:absolute;left:27px;top:-14px;width:2px;height:14px;background:var(--sky-deep)}
+  .tower .tw:first-child:before{display:none}
+  .tw .lvl{position:absolute;left:14px;top:16px;width:26px;height:26px;border-radius:8px;
+    display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono';
+    font-size:13px;font-weight:600;color:#fff}
+  .tw b{display:block;font-size:17px;font-weight:800;letter-spacing:-.01em}
+  .tw small{display:block;margin-top:4px;font-size:13.5px;line-height:1.45;color:var(--ink-soft)}
+  .tw .cap{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.04em;text-transform:uppercase;
+    opacity:.7;display:block;margin-bottom:2px}
+  /* level 1 = foundation (widest, darkest), narrowing upward */
+  .tw-1{background:var(--ink);border-color:var(--ink);color:var(--paper);margin-left:0;margin-right:0}
+  .tw-1 small{color:#CFC7BC} .tw-1 .lvl{background:var(--sky-deep)}
+  .tw-2{background:#EAF6FB;border-color:var(--mark);margin-left:14px;margin-right:0}
+  .tw-2 .lvl{background:var(--mark)}
+  .tw-3{background:#F0FAFD;border-color:var(--sky-deep);margin-left:28px;margin-right:0}
+  .tw-3 .lvl{background:var(--sky-deep)}
+  /* harness = side branch off level 3 */
+  .twbranch{position:relative;margin:8px 0 8px 56px;padding:15px 16px;border-radius:12px;
+    border:2px dashed var(--sky-deep);background:var(--card)}
+  .twbranch:before{content:"";position:absolute;left:-29px;top:24px;width:29px;height:2px;background:var(--sky-deep)}
+  .twbranch:after{content:"";position:absolute;left:-29px;top:-8px;width:2px;height:32px;background:var(--sky-deep)}
+  .twbranch b{font-size:16px;font-weight:800}
+  .twbranch .cap{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.04em;
+    text-transform:uppercase;color:var(--mark);display:block;margin-bottom:2px}
+  .twbranch small{display:block;margin-top:4px;font-size:13.5px;color:var(--ink-soft);line-height:1.45}
+
+  /* ===== TREE (company → app → model) ===== */
+  .tree{margin-top:22px;display:flex;flex-direction:column;gap:16px}
+  .trow{background:var(--card);border:2px solid #CFE7F0;border-radius:var(--r);padding:16px 16px 18px}
+  .trow.acc{border-color:var(--sky-deep)}
+  .troot{font-weight:800;font-size:17px;display:flex;align-items:center;gap:8px}
+  .troot .dot{width:9px;height:9px;border-radius:50%;background:var(--mark);flex:none}
+  .trow.acc .troot .dot{background:var(--sky-deep)}
+  .tbranch{margin-top:6px;padding-left:12px}
+  .tnode{position:relative;padding:9px 0 9px 26px;font-family:'JetBrains Mono';font-size:13.5px}
+  .tnode:before{content:"";position:absolute;left:4px;top:0;width:2px;height:100%;background:#CFE7F0}
+  .tnode:last-child:before{height:22px}
+  .tnode:after{content:"";position:absolute;left:4px;top:20px;width:16px;height:2px;background:#CFE7F0}
+  .trow.acc .tnode:before,.trow.acc .tnode:after{background:var(--sky-deep)}
+  .tnode .k{color:var(--ink-soft);font-size:11px;text-transform:uppercase;letter-spacing:.03em}
+  .tnode .v{font-weight:600;color:var(--ink);font-size:14.5px}
+  .tleaves{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+  .leaf{font-family:'JetBrains Mono';font-size:12px;background:#EAF6FB;border:1.5px solid #CFE7F0;
+    border-radius:20px;padding:5px 11px}
+
+  /* ===== COMPARISON TABLE (china + RF) ===== */
+  .ctable{margin-top:20px;border-radius:var(--r);overflow:hidden;border:2px solid var(--sky-deep)}
+  .ctable table{width:100%;border-collapse:collapse;font-size:13.5px}
+  .ctable th{background:var(--ink);color:var(--paper);font-weight:700;text-align:left;
+    padding:12px 12px;font-size:12.5px;letter-spacing:.01em}
+  .ctable td{padding:12px 12px;border-top:1.5px solid #CFE7F0;vertical-align:top;line-height:1.4}
+  .ctable td:first-child{font-weight:700}
+  .ctable tr:nth-child(even) td{background:#F0FAFD}
+  .ctable .good{color:var(--mark);font-weight:700}
+  .ctable .warn{color:#B5642A;font-weight:700}
 
   /* track cards */
   .tracks{margin-top:22px;display:flex;flex-direction:column;gap:14px}
-  .tcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  .tcard{background:var(--card);border:2px solid #CFE7F0;border-radius:var(--r);
     padding:20px;cursor:pointer;text-align:left;width:100%;font-family:inherit;color:inherit;transition:.15s}
   .tcard:active{transform:scale(.99)}
   .tcard.hot{border-color:var(--sky-deep);box-shadow:0 0 0 1px var(--sky-deep) inset}
@@ -126,8 +169,8 @@
   .tcard .top .go{font-size:22px;color:var(--mark)}
   .tcard .desc{color:var(--ink-soft);font-size:14.5px;margin-top:8px;line-height:1.45}
   .tcard .pills{margin-top:13px;display:flex;flex-wrap:wrap;gap:7px}
-  .pill{font-family:'JetBrains Mono';font-size:12px;background:var(--paper-2);
-    border:1px solid var(--line);border-radius:20px;padding:5px 11px}
+  .pill{font-family:'JetBrains Mono';font-size:12px;background:#EAF6FB;
+    border:1.5px solid #CFE7F0;border-radius:20px;padding:5px 11px}
 
   .quizcta{margin-top:24px;background:var(--ink);color:var(--paper);border-radius:var(--r);
     padding:22px 20px;text-align:center}
@@ -139,7 +182,7 @@
   .qstep b{font-family:'JetBrains Mono';font-size:13px;color:var(--sky-deep)}
   .qstep h2{font-size:23px;margin-top:8px}
   .opts{margin-top:22px;display:flex;flex-direction:column;gap:11px}
-  .opt{background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:17px 18px;
+  .opt{background:var(--card);border:1.5px solid #CFE7F0;border-radius:12px;padding:17px 18px;
     text-align:left;width:100%;font-family:inherit;font-weight:600;font-size:16px;color:inherit;
     cursor:pointer;transition:.12s}
   .opt:active{transform:scale(.99)}
@@ -209,12 +252,12 @@
 <div class="screen" id="market"><div class="wrap"><section>
   <div class="shead"><span class="eyebrow">урок 01</span><h2>Как устроен рынок AI</h2>
     <p><span class="ph">[Зачем это знать: чтобы понимать, что значит каждая новость и куда её класть.]</span></p></div>
-  <div class="floors">
-    <div class="floor"><span class="lvl">1</span><div class="tx"><b>Чипы и железо</b><small><span class="ph">[Nvidia, видеокарты, инференс. На чём всё работает. Порядок рынка — триллионы.]</span></small></div></div>
-    <div class="floor"><span class="lvl">2</span><div class="tx"><b>Модели</b><small><span class="ph">[«Мозги». OpenAI, Anthropic, Google, xAI + китайские. Разные модели — под разные задачи.]</span></small></div></div>
-    <div class="floor"><span class="lvl">3</span><div class="tx"><b>Приложения</b><small><span class="ph">[Оболочки поверх модели: ChatGPT, Claude, Perplexity и т.д.]</span></small></div></div>
-    <div class="floor harness"><span class="lvl">4</span><div class="tx"><b>Агентский харнес</b><small><span class="ph">[Оболочка, дающая модели руки и инструменты: Claude Code, Codex. Про это — коротко, подробно на треке.]</span></small></div></div>
+  <div class="tower">
+    <div class="tw tw-1"><span class="lvl">1</span><span class="cap">фундамент</span><b>Чипы и железо</b><small><span class="ph">[Nvidia, видеокарты, инференс. На этом стоит всё. Порядок рынка — триллионы.]</span></small></div>
+    <div class="tw tw-2"><span class="lvl">2</span><span class="cap">на чипах работают</span><b>Модели</b><small><span class="ph">[«Мозги». OpenAI, Anthropic, Google, xAI + китайские. Каждая — под свои задачи.]</span></small></div>
+    <div class="tw tw-3"><span class="lvl">3</span><span class="cap">оболочки над моделью</span><b>Приложения</b><small><span class="ph">[ChatGPT, Claude, Perplexity — то, чем ты пользуешься.]</span></small></div>
   </div>
+  <div class="twbranch"><span class="cap">+ ответвление</span><b>Агентский харнес</b><small><span class="ph">[Особая оболочка: даёт модели руки и инструменты (Claude Code, Codex). Коротко здесь, подробно — на треке.]</span></small></div>
   <div class="note"><b>Метафора.</b> <span class="ph">[Модель = мозг (думает). Харнес = руки и офис (действует). Сильная модель в хорошей оболочке даёт результат.]</span></div>
   <div style="margin-top:26px"><button class="btn block" data-go="players">Дальше: игроки без путаницы <span class="go">→</span></button></div>
 </section></div></div>
@@ -223,15 +266,24 @@
 <div class="screen" id="players"><div class="wrap"><section>
   <div class="shead"><span class="eyebrow">урок 02</span><h2>Игроки без путаницы</h2>
     <p><span class="ph">[Главная развилка новичка: компания ≠ приложение ≠ модель. Разбираем на примерах.]</span></p></div>
-  <div class="map">
-    <div class="maprow accent"><div class="co">OpenAI</div>
-      <div class="chain"><span class="cell">компания</span><span class="arr">→</span><span class="cell">ChatGPT</span><span class="arr">→</span><span class="cell">GPT-…</span></div></div>
-    <div class="maprow accent"><div class="co">Anthropic</div>
-      <div class="chain"><span class="cell">компания</span><span class="arr">→</span><span class="cell">Claude</span><span class="arr">→</span><span class="cell">Opus / Sonnet</span></div></div>
-    <div class="maprow"><div class="co">Остальные — обзором</div>
-      <div class="chain" style="line-height:1.9"><span class="cell">Google · Gemini</span><span class="cell">xAI · Grok</span><span class="cell">Perplexity</span><span class="cell">Manus</span><span class="cell">китайцы</span><span class="cell">ИИ в РФ</span></div></div>
+  <div class="tree">
+    <div class="trow acc"><div class="troot"><span class="dot"></span>OpenAI</div>
+      <div class="tbranch">
+        <div class="tnode"><span class="k">приложение</span><br><span class="v">ChatGPT</span></div>
+        <div class="tnode"><span class="k">модель внутри</span><br><span class="v">GPT-…</span></div>
+      </div></div>
+    <div class="trow acc"><div class="troot"><span class="dot"></span>Anthropic</div>
+      <div class="tbranch">
+        <div class="tnode"><span class="k">приложение</span><br><span class="v">Claude</span></div>
+        <div class="tnode"><span class="k">модель внутри</span><br><span class="v">Opus / Sonnet</span></div>
+      </div></div>
+    <div class="trow"><div class="troot"><span class="dot"></span>Остальные — знать, что есть</div>
+      <div class="tleaves">
+        <span class="leaf">Google · Gemini</span><span class="leaf">xAI · Grok</span><span class="leaf">Perplexity</span>
+        <span class="leaf">Manus</span><span class="leaf">китайцы</span><span class="leaf">ИИ в РФ</span>
+      </div></div>
   </div>
-  <div class="note"><span class="ph">[Акцент: два фронтир-игрока — OpenAI и Anthropic. Остальных достаточно «знать, что есть». Про китайцев и РФ — честно, где их предел.]</span></div>
+  <div class="note"><span class="ph">[Акцент: два фронтир-игрока — OpenAI и Anthropic (выделены). Остальных достаточно «знать, что есть». Дерево: компания → приложение → модель.]</span></div>
   <div style="margin-top:26px"><button class="btn block" data-go="newbie">Дальше: с чего начать новичку <span class="go">→</span></button></div>
 </section></div></div>
 
@@ -280,8 +332,14 @@
 </section></div></div>
 
 <div class="screen" id="tr-china"><div class="wrap"><section>
-  <div class="shead"><span class="eyebrow">трек</span><h2>Китайцы + ИИ в РФ</h2></div>
-  <div class="note"><span class="ph">[Честно: дешевле в разы, 4 из 5 топ-open-source — китайские, но отстают от фронтира и обучались на нём. Новичку рано. ИИ в РФ — ограничения, почему не замена лидерам.]</span></div>
+  <div class="shead"><span class="eyebrow">трек</span><h2>Китайцы + ИИ в РФ</h2>
+    <p><span class="ph">[Суть — в сравнении, поэтому таблица, а не карточки.]</span></p></div>
+  <div class="ctable"><table>
+    <tr><th>Кто</th><th>Цена</th><th>Качество</th><th>Новичку</th></tr>
+    <tr><td>Китайские<br><small class="ph">DeepSeek, Minimax, Qwen</small></td><td class="good"><span class="ph">[в разы дешевле]</span></td><td><span class="ph">[ниже фронтира, учились на нём]</span></td><td class="warn"><span class="ph">[рано]</span></td></tr>
+    <tr><td>ИИ в РФ</td><td><span class="ph">[—]</span></td><td><span class="ph">[не замена лидерам]</span></td><td class="warn"><span class="ph">[ограничения]</span></td></tr>
+  </table></div>
+  <div class="note"><span class="ph">[Честно: 4 из 5 топ-open-source — китайские, но требуют своё железо и отстают от фронтира. Новичку рано. ИИ в РФ — почему не замена лидерам.]</span></div>
   <div style="margin-top:24px"><button class="btn ghost" data-go="tracks">← К трекам</button></div>
 </section></div></div>
 
