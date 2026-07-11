@@ -87,14 +87,16 @@
   .meta .ast{color:var(--sky);font-weight:700;font-size:15px;line-height:1;flex:none}
 
   /* disclaimer */
-  .disc{margin-top:26px;background:var(--paper-2);border:1px solid var(--line);
+  .disc{margin-top:26px;background:#E4F3FA;border:1px solid #BFE3F0;
     border-left:3px solid var(--sky-deep);border-radius:var(--r);padding:22px 20px}
   .disc .eyebrow{display:block;margin-bottom:10px}
   .disc p{font-size:15.5px;line-height:1.48;margin-bottom:11px}
   .disc p:last-child{margin-bottom:0}
   .disc p b{font-weight:700}
-  .disc .ps{margin-top:15px;padding-top:14px;border-top:1px solid var(--line);
-    font-size:14px;color:var(--ink-soft);line-height:1.5}
+  .disc u{text-decoration:underline;text-decoration-color:var(--sky-deep);
+    text-decoration-thickness:2px;text-underline-offset:2px;font-weight:600}
+  .disc .ps{margin-top:15px;padding-top:14px;border-top:1px solid #C9E5F0;
+    font-size:14px;color:#4a5a63;line-height:1.5}
   .disc .ps b{color:var(--ink)}
   .disc .jump{color:var(--mark);font-weight:600;cursor:pointer;
     border-bottom:1.5px dotted var(--sky-deep)}
@@ -131,10 +133,15 @@
   .about p:last-child{margin-bottom:0}
 
   /* mini links row */
-  .minirow{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap}
-  .minirow button{flex:1;min-width:30%;background:transparent;border:1px solid var(--line);border-radius:11px;
-    padding:13px;font-family:inherit;font-weight:600;font-size:14px;color:var(--ink);cursor:pointer}
-  .minirow button:active{background:var(--card)}
+  .minilbl{margin-top:30px;margin-bottom:12px}
+  .minirow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .minirow button{background:var(--card);border:1px solid var(--line);border-radius:13px;
+    padding:16px 16px;font-family:inherit;font-weight:700;font-size:15px;color:var(--ink);
+    cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;
+    letter-spacing:-.01em;transition:.15s}
+  .minirow button:after{content:"→";color:var(--mark);font-weight:700;font-size:16px}
+  .minirow button:active{background:var(--sky);border-color:var(--sky-deep);transform:scale(.99)}
+  .minirow button.hot{background:var(--sky);border-color:var(--sky-deep)}
 
   /* ---------- STEP SCREENS ---------- */
   .stepbar{background:var(--paper-2);border-bottom:1px solid var(--line);padding:14px 0}
@@ -384,9 +391,9 @@
     <div class="wrap">
       <div class="eyebrow">Гайд · старт с нуля</div>
       <h1>Claude из России <span class="fancy">без блокировок</span></h1>
-      <p class="lede">Оплата подписки — первый барьер, на котором отваливается большинство. Проведу по шагам: что подготовить, как прогреть аккаунт, как заплатить и как не словить блок в первый же день.</p>
+      <p class="lede">Регистрация и оплата подписки — первый барьер, на котором отваливается большинство. Проведу по шагам: что подготовить, как прогреть аккаунт, как заплатить и как не словить блок в первый же день.</p>
       <div class="meta">
-        <span class="m"><span class="ast">✱</span><b>15 мин</b> на чтение</span>
+        <span class="m"><span class="ast">✱</span><b>2–3 часа</b> на всё</span>
         <span class="m"><span class="ast">✱</span><b>3 способа</b> оплаты</span>
         <span class="m"><span class="ast">✱</span><b>0</b> техбэкграунда</span>
       </div>
@@ -396,11 +403,11 @@
   <div class="wrap">
     <div class="disc">
       <span class="eyebrow">Честно, перед стартом</span>
-      <p>Хочу предупредить, что этот гайд — это самая нудная часть всего пути. Нужно сделать рывок — и получить доступ к передовым моделям Anthropic (одному из лидеров рынка). И это связано исключительно из-за ограничений в РФ.</p>
-      <p>Пройдя этот этап один раз, тебе откроется доступ ко всем возможностям ИИ, о которых ты слышал, но не знал, с чего начать.</p>
-      <p>Дальше — только креатив и дофамин от того, что сделаешь уже в первую неделю.</p>
-      <p>Чтобы ещё упростить тебе вход, я сделала интерактивный онбординг: он проведёт тебя шаг за шагом и позаботится о том, чтобы у тебя были все ссылки.</p>
-      <div class="ps"><b>P.S.</b> Выделить нужно будет 2–3 часа на все эти обходные пути, если прям новичок. Или часик, если знаком с терминологией и сервисами.</div>
+      <p>Хочу предупредить, что этот гайд — это <u>самая нудная часть всего пути</u>. Нужно сделать рывок — и получить доступ к передовым моделям Anthropic (одному из лидеров рынка). И это связано <u>исключительно из-за ограничений в РФ</u>.</p>
+      <p>Пройдя этот этап <u>один раз</u>, тебе откроется доступ ко всем возможностям ИИ, о которых ты слышал, но не знал, с чего начать.</p>
+      <p>Дальше — только <u>креатив и дофамин</u> от того, что сделаешь уже в первую неделю.</p>
+      <p>Чтобы ещё упростить тебе вход, я сделала <u>интерактивный онбординг</u>: он проведёт тебя шаг за шагом и позаботится о том, чтобы у тебя были все ссылки.</p>
+      <div class="ps"><b>P.S.</b> Выделить нужно будет <u>2–3 часа</u> на все эти обходные пути, если прям новичок. Или часик, если знаком с терминологией и сервисами.</div>
     </div>
 
     <div class="hubhead">
@@ -430,11 +437,12 @@
     <div class="about">
       <div class="who">Крис <i>· @kris.usti</i></div>
       <p>Я не программистка и пришла не из айти. Еще три года назад я так же зависала над сотней вкладок с нейронками и не понимала, за что хвататься первым.</p>
-      <p>Оплата кажется мелочью, но именно здесь застревают чаще всего. Не потому что сложно, а потому что никто не разложил по шагам: что нужно, в каком порядке и где легко словить блокировку. Я прошла это сама и собрала здесь только то, что реально нужно на старте.</p>
+      <p>Оплата кажется мелочью, но именно здесь застревают чаще всего. И дело не в сложности — просто никто не собрал весь порядок действий в одном месте и не показал заранее, где легко словить блокировку. Я прошла это сама и оставила здесь только то, что реально нужно на старте.</p>
     </div>
 
+    <div class="minilbl"><div class="eyebrow">Ещё в гайде</div></div>
     <div class="minirow">
-      <button data-go="subs">Подписки</button>
+      <button class="hot" data-go="subs">Подписки</button>
       <button data-go="faq">Частые вопросы</button>
       <button data-go="gloss">Словарь</button>
       <button data-go="src">Источники</button>
