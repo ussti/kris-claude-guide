@@ -317,7 +317,7 @@
   .srclink .go{color:var(--mark);font-size:18px;flex:none}
 
   /* ---------- NEXT / NAV FOOT ---------- */
-  .nextwrap{margin-top:30px;padding-bottom:6px}
+  .nextwrap{margin-top:26px;padding-bottom:calc(30px + env(safe-area-inset-bottom))}
   .nextbtn{width:100%;background:var(--ink);border:none;border-radius:var(--r);padding:17px;
     font-family:inherit;font-weight:700;font-size:16px;color:var(--paper);cursor:pointer;
     display:flex;align-items:center;justify-content:center;gap:10px;letter-spacing:-.01em}
@@ -396,10 +396,11 @@
   <div class="wrap">
     <div class="disc">
       <span class="eyebrow">Честно, перед стартом</span>
-      <p>Сразу предупрежу: это самая нудная часть всего пути. Один рывок — и у тебя доступ к передовым моделям Anthropic, одного из лидеров рынка. Вся эта возня нужна только из-за ограничений в РФ, а не потому что с тобой что-то не так.</p>
-      <p>Пройдешь этот этап один раз — и откроешь себе все возможности ИИ, о которых столько слышал, но не знал, с какой стороны подступиться. Дальше начинается интересное: чистый креатив и дофамин от того, что соберешь уже за первую неделю.</p>
-      <p>Чтобы тебе было проще, я собрала этот онбординг: он проведет шаг за шагом и сам подставит все нужные ссылки. Просто иди по маршруту ниже.</p>
-      <div class="ps"><b>P.S.</b> Заложи 2–3 часа, если совсем новичок, или около часа, если уже знаком с сервисами и терминами.</div>
+      <p>Хочу предупредить, что этот гайд — это самая нудная часть всего пути. Нужно сделать рывок — и получить доступ к передовым моделям Anthropic (одному из лидеров рынка). И это связано исключительно из-за ограничений в РФ.</p>
+      <p>Пройдя этот этап один раз, тебе откроется доступ ко всем возможностям ИИ, о которых ты слышал, но не знал, с чего начать.</p>
+      <p>Дальше — только креатив и дофамин от того, что сделаешь уже в первую неделю.</p>
+      <p>Чтобы ещё упростить тебе вход, я сделала интерактивный онбординг: он проведёт тебя шаг за шагом и позаботится о том, чтобы у тебя были все ссылки.</p>
+      <div class="ps"><b>P.S.</b> Выделить нужно будет 2–3 часа на все эти обходные пути, если прям новичок. Или часик, если знаком с терминологией и сервисами.</div>
     </div>
 
     <div class="hubhead">
@@ -527,20 +528,23 @@
       <span class="eyebrow">Подготовка · VPN</span>
       <h2>Доступ через VPN</h2>
     </div>
-    <p class="lead">Claude не работает с IP из России и Беларуси. Нужен европейский IP — и VPN включён <b>всё время</b>, пока ты у Claude: регистрация, оплата, вход. Отключил на середине — риск блока.</p>
+    <p class="lead"><b>Зачем это.</b> Claude не открывается с российского и белорусского IP: он просто не пускает к регистрации, оплате и входу. Нужен европейский IP — а VPN включён <b>всё время</b>, пока ты у Claude. Отключил на середине — риск блока.</p>
 
-    <h4><span class="fancy">A</span> Amnezia — рекомендую</h4>
-    <p class="lead">Бесплатный клиент <a class="lnk" href="https://amnezia.org" target="_blank" rel="noopener">amnezia.org</a> (Windows, Mac, iOS, Android). Два режима:</p>
+    <h4><span class="fancy">A</span> Простой VPN «купил и работает» — рекомендую новичку</h4>
+    <p class="lead">Самый лёгкий путь: сервис, который делает всю работу за тебя. Покупаешь подписку, ставишь приложение, выбираешь страну ЕС — и всё. Ничего не поднимаешь и вручную не перепроверяешь.</p>
+    <p class="lead">Пример — <a class="lnk" href="https://blancvpn.com" target="_blank" rel="noopener">BlancVPN</a>: настройка прямо через Telegram-бота, заточен обходить блокировки в РФ, оплата картой или криптой.</p>
     <ol class="steps">
-      <li><b>Premium</b> — платная подписка на готовые серверы. Скачал клиент, оплатил, выбрал страну ЕС — работает за 5 минут.</li>
-      <li><b>Свой VPS</b> — поднимаешь VPN на своём сервере (Hetzner, Netcup, от €4/мес). IP только твой — так чище всего. Клиент сам ставит всё по SSH за ~5 минут.</li>
+      <li>Открой их Telegram-бота, оплати подписку: около <b>€8</b> за месяц пробно или <b>от €3/мес</b> на годовом тарифе. Есть возврат 30 дней.</li>
+      <li>Поставь приложение (Windows, Mac, iOS, Android), выбери страну ЕС — <b>Нидерланды, Германию или Финляндию</b>.</li>
+      <li>Включи и держи включённым, пока работаешь с Claude. Готово.</li>
     </ol>
+    <p class="tipline">Нюанс: у такого VPN IP <b>общий</b> — не выделенный лично тебе. Для регистрации и оплаты Claude этого обычно хватает. Хочешь надёжнее — смотри вариант Б.</p>
 
-    <h4><span class="fancy">Б</span> Коммерческий VPN с выделенным IP — проще</h4>
-    <ol class="steps">
-      <li>Возьми подписку с <span class="term" data-term="vpn">выделенным IP</span> — NordVPN или Surfshark. Адрес только твой, не общий с сотней людей.</li>
-      <li>Оплата из РФ — крипта или посредник. Готово за 5 минут, без возни с сервером.</li>
-    </ol>
+    <h4><span class="fancy">Б</span> VPN с выделенным IP — надёжнее</h4>
+    <p class="lead">Если хочешь IP, которым не пользуется больше никто (меньше шанс, что он уже засвечен), возьми <span class="term" data-term="vpn">выделенный IP</span> — это платная опция сверху у NordVPN или Surfshark, примерно €3–5/мес к подписке. Настройка такая же простая: приложение, страна ЕС, включил.</p>
+
+    <h4><span class="fancy">В</span> Свой сервер через Amnezia — для продвинутых</h4>
+    <p class="lead">Самый чистый IP — свой собственный. Клиент <a class="lnk" href="https://amnezia.org" target="_blank" rel="noopener">amnezia.org</a> поднимает VPN на арендованном сервере (Hetzner, Netcup, от €4/мес) за ~5 минут по SSH. Но новичку это не обязательно: если не хочешь возиться с сервером — оставайся на варианте А.</p>
 
     <h4><span class="fancy">✱</span> Правила — соблюдай все три</h4>
     <ul class="tl" style="margin-top:10px">
@@ -552,7 +556,7 @@
     <h4><span class="fancy">✓</span> Проверь перед регистрацией</h4>
     <ol class="steps">
       <li>Зайди на <a class="lnk" href="https://ifconfig.me" target="_blank" rel="noopener">ifconfig.me</a> — IP должен быть европейский, не российский.</li>
-      <li>Проверь утечки на <a class="lnk" href="https://whoer.net" target="_blank" rel="noopener">whoer.net</a>: не должно течь ни DNS, ни <span class="term" data-term="webrtc">WebRTC</span>. В Amnezia включи галочку «DNS через VPN».</li>
+      <li>Проверь утечки на <a class="lnk" href="https://whoer.net" target="_blank" rel="noopener">whoer.net</a>: не должно течь ни DNS, ни <span class="term" data-term="webrtc">WebRTC</span>. Если в приложении есть защита от утечек DNS — включи.</li>
       <li>Заходи из <u>чистого браузера</u> — инкогнито или новый профиль, чтобы старые куки тебя не выдали.</li>
     </ol>
     <p class="tipline">Золотое правило: открыт claude.ai — VPN включён. Сомневаешься — тоже включён.</p>
@@ -632,7 +636,7 @@
     </div>
 
     <div class="check" id="prepCheck">
-      <div class="citem" data-k="vpn"><div class="bx"></div><div class="cx"><b><span class="term" data-term="vpn">VPN</span> с одной страной ЕС</b><p>Amnezia или выделенный IP. Одна страна, проверено на whoer.net — без утечек.</p></div></div>
+      <div class="citem" data-k="vpn"><div class="bx"></div><div class="cx"><b><span class="term" data-term="vpn">VPN</span> с одной страной ЕС</b><p>Простой VPN через приложение или выделенный IP. Одна страна, проверено на whoer.net — без утечек.</p></div></div>
       <div class="citem" data-k="gmail"><div class="bx"></div><div class="cx"><b>Отдельная почта Gmail</b><p>Новый ящик под Claude — созданный или готовый.</p></div></div>
       <div class="citem" data-k="sms"><div class="bx"></div><div class="cx"><b>Номер для СМС</b><p>Разовый номер или постоянная eSIM без KYC.</p></div></div>
       <div class="citem" data-k="browser"><div class="bx"></div><div class="cx"><b>Чистый браузер</b><p>Инкогнито или новый профиль. IP европейский, куки не тянутся из старого.</p></div></div>
@@ -866,7 +870,8 @@ Phone: (650) 253-0000</div>
 
     <div class="srcgrp">
       <h4>VPN и доступ</h4>
-      <a class="srclink" href="https://amnezia.org" target="_blank" rel="noopener"><span class="d"><b>Amnezia VPN</b><small>клиент: Premium или свой VPS</small><span class="u">amnezia.org</span></span><span class="go">↗</span></a>
+      <a class="srclink" href="https://blancvpn.com" target="_blank" rel="noopener"><span class="d"><b>BlancVPN · простой</b><small>настройка через Telegram-бота, от €3/мес</small><span class="u">blancvpn.com</span></span><span class="go">↗</span></a>
+      <a class="srclink" href="https://amnezia.org" target="_blank" rel="noopener"><span class="d"><b>Amnezia VPN</b><small>свой сервер, для продвинутых</small><span class="u">amnezia.org</span></span><span class="go">↗</span></a>
       <a class="srclink" href="https://nordvpn.com" target="_blank" rel="noopener"><span class="d"><b>NordVPN · выделенный IP</b><small>коммерческий VPN, адрес только твой</small><span class="u">nordvpn.com</span></span><span class="go">↗</span></a>
       <a class="srclink" href="https://www.netcup.com" target="_blank" rel="noopener"><span class="d"><b>Netcup / Hetzner</b><small>VPS под свой VPN, от €4/мес</small><span class="u">netcup.com</span></span><span class="go">↗</span></a>
     </div>
