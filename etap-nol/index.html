@@ -94,6 +94,40 @@
   .btn .go{font-size:19px}
 
   .floors{margin-top:22px;display:flex;flex-direction:column;gap:12px}
+
+  /* preface (Kris intro) */
+  .preface{margin-top:30px;background:var(--card);border:2px solid var(--sky-deep);
+    border-radius:var(--r);padding:22px 20px}
+  .pf-top{display:flex;align-items:center;gap:13px;margin-bottom:14px}
+  .pf-ava{width:44px;height:44px;border-radius:50%;background:var(--sky);color:var(--ink);
+    display:flex;align-items:center;justify-content:center;font-family:'Playfair Display';
+    font-style:italic;font-weight:600;font-size:22px;flex:none}
+  .pf-name{font-weight:700;font-size:15px;margin-top:2px}
+  .preface p{font-size:15.5px;line-height:1.55}
+
+  /* two entries */
+  .entries{margin-top:20px;display:flex;flex-direction:column;gap:14px}
+  .entry{display:flex;align-items:center;gap:16px;width:100%;text-align:left;font-family:inherit;
+    color:inherit;cursor:pointer;background:var(--card);border:2px solid var(--sky-deep);
+    border-radius:var(--r);padding:20px 20px;transition:.15s}
+  .entry:active{transform:scale(.99)}
+  .entry.hot{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .entry .no{font-family:'JetBrains Mono';font-size:15px;font-weight:600;color:#fff;
+    background:var(--mark);width:40px;height:40px;border-radius:11px;flex:none;
+    display:flex;align-items:center;justify-content:center}
+  .entry.hot .no{background:var(--sky);color:var(--ink)}
+  .entry .etx{flex:1}
+  .entry .etx b{display:block;font-size:19px;font-weight:800;letter-spacing:-.02em}
+  .entry .etx small{display:block;margin-top:5px;font-size:14px;line-height:1.4;color:var(--ink-soft)}
+  .entry.hot .etx small{color:#CFC7BC}
+  .entry .go{font-size:22px;color:var(--mark);flex:none}
+  .entry.hot .go{color:var(--sky)}
+
+  /* theme toggle */
+  .tbtn{width:42px;height:38px;border:1px solid #CFE7F0;border-radius:10px;background:var(--card);
+    cursor:pointer;font-size:17px;line-height:1;display:flex;align-items:center;justify-content:center;margin-right:8px}
+  .topbar .in .actions{display:flex;align-items:center}
+
   .note{margin-top:18px;background:var(--paper-2);border-left:3px solid var(--sky-deep);
     border-radius:10px;padding:16px 18px;font-size:14.5px;color:var(--ink-soft);line-height:1.5}
 
@@ -203,13 +237,42 @@
 
   .foot{border-top:1px solid var(--line);margin-top:40px;padding:26px 0 90px;
     color:var(--ink-soft);font-size:13px;text-align:center}
+
+  /* ===== DARK THEME ===== */
+  :root[data-theme="dark"]{
+    --paper:#15120F; --paper-2:#1E1915; --card:#211C18; --line:#332C25; --ink-soft:#A99D8F;
+  }
+  :root[data-theme="dark"] body{background:#15120F;color:#ECE7DF}
+  :root[data-theme="dark"] .topbar{background:rgba(21,18,15,.9);border-bottom-color:#332C25}
+  :root[data-theme="dark"] .brand{color:#ECE7DF}
+  :root[data-theme="dark"] .burger,:root[data-theme="dark"] .tbtn{background:#211C18;border-color:#332C25}
+  :root[data-theme="dark"] .burger span{background:#ECE7DF}
+  :root[data-theme="dark"] .shead p,:root[data-theme="dark"] .ph{color:#A99D8F}
+  :root[data-theme="dark"] .preface,:root[data-theme="dark"] .entry,
+  :root[data-theme="dark"] .tcard,:root[data-theme="dark"] .opt,
+  :root[data-theme="dark"] .trow{background:#211C18;border-color:#2E5561}
+  :root[data-theme="dark"] .entry.hot,:root[data-theme="dark"] .quizcta{background:#0F0C0A}
+  :root[data-theme="dark"] .tw-2{background:#16242A}
+  :root[data-theme="dark"] .tw-3{background:#122025}
+  :root[data-theme="dark"] .leaf,:root[data-theme="dark"] .pill{background:#16242A;border-color:#2E5561}
+  :root[data-theme="dark"] .note{background:#1E1915}
+  :root[data-theme="dark"] .btn.ghost{color:#ECE7DF;border-color:#332C25}
+  :root[data-theme="dark"] .tnode .v{color:#ECE7DF}
+  :root[data-theme="dark"] .twbranch{background:#211C18}
+  :root[data-theme="dark"] .ctable tr:nth-child(even) td{background:#1A1511}
+  :root[data-theme="dark"] .ctable td{border-top-color:#2E5561}
+  :root[data-theme="dark"] .foot{border-top-color:#332C25}
 </style>
+<script>try{var _t=localStorage.getItem('etap_theme');if(_t)document.documentElement.setAttribute('data-theme',_t)}catch(e){}</script>
 </head>
 <body>
 
 <div class="topbar"><div class="in">
   <div class="brand" data-go="hub">этап <i>ноль</i></div>
-  <button class="burger" id="burger" aria-label="Меню"><span></span><span></span><span></span></button>
+  <div class="actions">
+    <button class="tbtn" id="tbtn" aria-label="Тема">🌙</button>
+    <button class="burger" id="burger" aria-label="Меню"><span></span><span></span><span></span></button>
+  </div>
 </div></div>
 
 <nav class="menu" id="menu">
@@ -229,21 +292,30 @@
   <div class="hero"><div class="wrap">
     <span class="eyebrow">этап ноль</span>
     <h1>С чего <span class="fancy">начать</span> в AI</h1>
-    <p class="lede"><span class="ph">[Обещание: провести от нуля до первого результата. 2–3 предложения — куда приведёт этот магнит и кому он.]</span></p>
-    <div class="meta">
-      <span class="m"><span class="ast">✱</span><b>0 → результат</b> за один заход</span>
-      <span class="m"><span class="ast">✱</span>без технического бэкграунда</span>
-    </div>
-    <div style="margin-top:26px"><button class="btn sky" data-go="market">Разобраться с нуля <span class="go">→</span></button></div>
+    <p class="lede"><span class="ph">[Одна строка-обещание: от нуля до первого результата.]</span></p>
   </div></div>
 
   <div class="wrap"><section>
-    <div class="shead"><span class="eyebrow">за 5 экранов</span><h2>Что внутри</h2>
-      <p><span class="ph">[Короткий маршрут: рынок → игроки → с чего начать → трек под тебя → первый результат.]</span></p></div>
-    <div class="floors" style="margin-top:20px">
-      <button class="tcard" data-go="market"><div class="top"><b>01 · Как устроен рынок</b><span class="go">→</span></div><div class="desc">Три этажа и агентские оболочки. Чтобы каждая новость встала на полку.</div></button>
-      <button class="tcard" data-go="players"><div class="top"><b>02 · Игроки без путаницы</b><span class="go">→</span></div><div class="desc">Компания ≠ приложение ≠ модель. Кто есть кто.</div></button>
-      <button class="tcard" data-go="tracks"><div class="top"><b>04 · Три трека</b><span class="go">→</span></div><div class="desc">Выбери свой путь или пройди опрос — подберу.</div></button>
+    <!-- ПРЕДИСЛОВИЕ ОТ KRIS -->
+    <div class="preface">
+      <div class="pf-top"><span class="pf-ava">К</span><div><span class="eyebrow">предисловие</span><div class="pf-name">Кристина · @kris.usti</div></div></div>
+      <p><span class="ph">[Твой голос: зачем ты это собрала, кому и почему именно сейчас. 3–5 предложений — личное вступление, обо мне/для тебя. Задаёт тон всему магниту.]</span></p>
+    </div>
+
+    <div class="shead" style="margin-top:34px"><span class="eyebrow">выбери вход</span><h2>Два пути</h2>
+      <p><span class="ph">[Можно разобраться в системе — или сразу подобрать свой старт опросом.]</span></p></div>
+
+    <div class="entries">
+      <button class="entry" data-go="market">
+        <span class="no">01</span>
+        <div class="etx"><b>Как устроен рынок</b><small>Разложить по полкам: уровни, игроки, треки. Чтобы каждая новость встала на место.</small></div>
+        <span class="go">→</span>
+      </button>
+      <button class="entry hot" data-go="quiz">
+        <span class="no">02</span>
+        <div class="etx"><b>Пройти опрос</b><small>С чего начать именно тебе. 4 вопроса → твой трек и режим входа.</small></div>
+        <span class="go">→</span>
+      </button>
     </div>
   </section></div>
 </div>
@@ -380,6 +452,20 @@
 <div class="tag-skel">СКЕЛЕТ · без финальных текстов</div>
 
 <script>
+  /* theme */
+  var TK='etap_theme';
+  var tbtn=document.getElementById('tbtn');
+  function applyTheme(t){
+    document.documentElement.setAttribute('data-theme',t);
+    tbtn.textContent = t==='dark' ? '☀️' : '🌙';
+  }
+  var savedT='light'; try{savedT=localStorage.getItem(TK)||'light'}catch(e){}
+  applyTheme(savedT);
+  tbtn.addEventListener('click',function(){
+    var t=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+    applyTheme(t); try{localStorage.setItem(TK,t)}catch(e){}
+  });
+
   var menu=document.getElementById('menu'), burger=document.getElementById('burger');
   function closeMenu(){menu.classList.remove('open');burger.classList.remove('x')}
   burger.addEventListener('click',function(){menu.classList.toggle('open');burger.classList.toggle('x')});
