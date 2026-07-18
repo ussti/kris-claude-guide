@@ -375,7 +375,7 @@
   <a data-go="s1"><span class="n">01</span> Что подготовить</a>
   <a data-go="s2"><span class="n">02</span> Прогрев аккаунта</a>
   <a data-go="s3"><span class="n">03</span> Оплата подписки</a>
-  <a data-go="s4"><span class="n">04</span> Чего не делать</a>
+  <a data-go="s4"><span class="n">04</span> Красные флаги</a>
   <div class="lbl" style="margin-top:22px">Справка</div>
   <a class="plain" data-go="subs">Типы подписок</a>
   <a class="plain" data-go="abroad">Если ты не в России</a>
@@ -413,11 +413,11 @@
     <div class="hubhead">
       <div class="eyebrow">С чего начать</div>
       <h2>Ты сейчас в России?</h2>
-      <p>От этого зависит путь. Из-за границы всё проще: обходы не нужны, сразу к подпискам и оплате картой.</p>
+      <p>Если да — сложности две: регистрация и оплата; гайд закрывает обе. Если нет — регистрация обычная, остаётся разобраться только с оплатой.</p>
     </div>
     <div class="steps-list" style="margin-top:18px">
-      <button class="scard" data-go="s1"><span class="idx" style="background:var(--ink);font-size:12px">РФ</span><span class="tx"><b>Я в России</b><small>полный путь: VPN, почта, номер, оплата</small></span><span class="go">→</span></button>
-      <button class="scard" data-go="abroad"><span class="idx" style="background:var(--sky-deep);font-size:12px">ЕС</span><span class="tx"><b>Я не в России</b><small>короткий путь: подписки и оплата картой</small></span><span class="go">→</span></button>
+      <button class="scard" data-go="s1"><span class="idx" style="background:var(--ink);font-size:12px">РФ</span><span class="tx"><b>Я в России</b><small>две сложности: регистрация и оплата</small></span><span class="go">→</span></button>
+      <button class="scard" data-go="abroad"><span class="idx" style="background:var(--sky-deep);font-size:12px">ЕС</span><span class="tx"><b>Я не в России</b><small>одна сложность: оплата</small></span><span class="go">→</span></button>
     </div>
 
     <div class="hubhead">
@@ -430,7 +430,7 @@
       <button class="scard" data-go="s1"><span class="idx" data-idx="1">01</span><span class="tx"><b>Подготовить всё заранее</b><small>VPN, почта, номер для СМС</small></span><span class="go">→</span></button>
       <button class="scard" data-go="s2"><span class="idx" data-idx="2">02</span><span class="tx"><b>Прогреть аккаунт</b><small>два спокойных дня до оплаты</small></span><span class="go">→</span></button>
       <button class="scard" data-go="s3"><span class="idx" data-idx="3">03</span><span class="tx"><b>Оплатить подписку</b><small>3 способа: от простого к выгодному</small></span><span class="go">→</span></button>
-      <button class="scard" data-go="s4"><span class="idx" data-idx="4">04</span><span class="tx"><b>Не наступить на грабли</b><small>красные флаги блокировок</small></span><span class="go">→</span></button>
+      <button class="scard" data-go="s4"><span class="idx" data-idx="4">04</span><span class="tx"><b>Красные флаги блокировок</b><small>чего не делать никогда</small></span><span class="go">→</span></button>
     </div>
     <button class="startbtn" data-go="s1">Начать по порядку →</button>
 
@@ -484,7 +484,7 @@
     <div class="shead">
       <span class="eyebrow">Короткий путь</span>
       <h2>Если ты не в России</h2>
-      <p class="intro">Из страны, где Claude работает официально, вся возня с VPN и виртуальными номерами не нужна. Регистрируешься как обычно и платишь картой напрямую.</p>
+      <p class="intro">Из страны, где Claude работает официально, вся возня с VPN и виртуальными номерами не нужна: регистрация обычная. Единственная возможная сложность — оплата, если под рукой только российская карта.</p>
     </div>
 
     <h4><span class="fancy">1</span> Проверь, что твоя страна в списке</h4>
@@ -498,7 +498,8 @@
 
     <h4><span class="fancy">3</span> Оплати картой</h4>
     <ol class="steps">
-      <li>Выбери тариф прямо на сайте Claude и заплати обычной картой — местной Visa или Mastercard.</li>
+      <li>Есть местная Visa или Mastercard — выбери тариф прямо на сайте Claude и заплати ей. Готово.</li>
+      <li>Есть только российская карта — она не пройдёт. Возьми любой из способов <span class="jump" data-go="s3" style="color:var(--mark);font-weight:600;cursor:pointer;border-bottom:1.5px dotted var(--sky-deep)">шага 03</span>: агрегаторы или криптокарта работают откуда угодно.</li>
       <li>Не знаешь, какой тариф брать, — загляни в <span class="jump" data-go="subs" style="color:var(--mark);font-weight:600;cursor:pointer;border-bottom:1.5px dotted var(--sky-deep)">типы подписок</span>.</li>
     </ol>
     <p class="tipline">Вот и всё. Весь длинный маршрут выше — только для тех, кто заходит из РФ или Беларуси.</p>
@@ -537,14 +538,16 @@
       <h2>Доступ через VPN</h2>
     </div>
     <p class="lead"><b>Зачем это.</b> Claude не открывается с российского и белорусского IP: сама Anthropic не пускает к регистрации, оплате и входу — это ограничение компании, а не блокировка Роскомнадзора. Нужен европейский IP — а VPN включён <b>всё время</b>, пока ты у Claude. Отключил на середине — риск блока.</p>
-    <p class="lead"><b>Правовая рамка.</b> Само использование VPN в России законом не запрещено. Запрещена реклама и популяризация сервисов обхода блокировок (закон действует с 1 сентября 2025), поэтому конкретные VPN-сервисы этот гайд не называет и не рекомендует — выбор остаётся за тобой. Ниже — только нейтральные критерии выбора и правила настройки.</p>
+    <p class="lead"><b>Правовая рамка.</b> Само использование VPN в России законом не запрещено. Запрещена реклама и популяризация сервисов обхода блокировок (закон действует с 1 сентября 2025), поэтому конкретные VPN-сервисы этот гайд не называет — ниже только критерии выбора и правила настройки.</p>
+    <div class="note" style="border-left:3px solid var(--sky-deep)">По правилам, в которых я живу, конкретные сервисы и точные настройки я тебе не диктую. Но если хочешь разобраться глубже сама — вбей в поиск «современные протоколы для обхода блокировок 2026» и почитай, что сейчас в ходу и какие сервисы это умеют. Или спроси в комментариях в моём Telegram-канале — там уже прошли этот путь и подскажут, что реально работает на сегодня.</div>
 
     <h4><span class="fancy">A</span> Готовый платный VPN — путь новичка</h4>
-    <p class="lead">Самый лёгкий путь: платный сервис с приложением, который делает всю работу за тебя. Покупаешь подписку, ставишь приложение, выбираешь страну ЕС — и всё. Ничего не поднимаешь и вручную не перепроверяешь. Обычный порядок цен — от нескольких евро в месяц.</p>
+    <p class="lead">Ловушка, в которую попадают почти все: берут самый известный мировой VPN — а он либо сам заблокирован в России, либо не принимает российскую оплату. Известность здесь не критерий. Критерий один: <b>сервис работает из РФ прямо сейчас</b>. Вот как его определить.</p>
     <ol class="steps">
-      <li>Выбери известный платный сервис с приложениями под твои устройства (Windows, Mac, iOS, Android) и оплатой, которая тебе доступна.</li>
-      <li>Выбери страну ЕС — <b>Нидерланды, Германию или Финляндию</b>.</li>
-      <li>Включи и держи включённым, пока работаешь с Claude. Готово.</li>
+      <li>Смотри на протоколы: сервис должен поддерживать <u>современные протоколы с маскировкой трафика</u> (обфускацией) — именно такие продолжают работать под блокировками. Классические протоколы без маскировки в РФ давно режутся.</li>
+      <li>Проверь, что есть <u>выбор конкретной страны</u> — тебе нужны Нидерланды, Германия или Финляндия — и приложения под твои устройства.</li>
+      <li>Проверь способ оплаты: он должен быть доступен тебе из РФ — картой, криптовалютой или через Telegram-бота сервиса.</li>
+      <li>Включи, выбери страну и держи включённым, пока работаешь с Claude.</li>
     </ol>
     <p class="tipline">Нюанс: у массового VPN IP <b>общий</b> — не выделенный лично тебе. Для регистрации и оплаты Claude этого обычно хватает. Хочешь надёжнее — смотри вариант Б.</p>
 
@@ -565,6 +568,7 @@
     <ol class="steps">
       <li>Зайди на <a class="lnk" href="https://ifconfig.me" target="_blank" rel="noopener">ifconfig.me</a> — IP должен быть европейский, не российский.</li>
       <li>Проверь утечки на <a class="lnk" href="https://whoer.net" target="_blank" rel="noopener">whoer.net</a>: не должно течь ни DNS, ни <span class="term" data-term="webrtc">WebRTC</span>. Если в приложении есть защита от утечек DNS — включи.</li>
+      <li>Отдельно проверь WebRTC на <a class="lnk" href="https://browserleaks.com/webrtc" target="_blank" rel="noopener">browserleaks.com/webrtc</a>. Светится реальный IP — отключи: в Chrome ставится расширение WebRTC Leak Prevent, в Firefox в <span class="mono">about:config</span> выключается <span class="mono">media.peerconnection.enabled</span>.</li>
       <li>Заходи из <u>чистого браузера</u> — инкогнито или новый профиль, чтобы старые куки тебя не выдали.</li>
     </ol>
     <p class="tipline">Золотое правило: открыт claude.ai — VPN включён. Сомневаешься — тоже включён.</p>
@@ -765,7 +769,7 @@ Phone: (650) 253-0000</div>
         <div class="tag">сложнее на старте · есть правовые нюансы</div>
         <p class="lead" style="margin-bottom:12px"><b>Сначала правовая рамка.</b> Владеть криптовалютой в РФ законно (это имущество по 259-ФЗ), но она не признана средством платежа, а правила её покупки ужесточаются: с сентября 2026 P2P-покупка с российской карты без лицензированного посредника попадает под запрет. Оплата зарубежного сервиса криптокартой — серая зона: формально платит карта биржи, но расчёты «из России» несут риск претензий. Выбирая этот способ, ты берёшь этот риск на себя; два способа выше не вызывают правовых вопросов.</p>
         <ol class="steps">
-          <li>Зарегистрируйся на криптобирже с картой (например <a class="lnk" href="https://www.bybit.com" target="_blank" rel="noopener">Bybit</a>), пройди <u>верификацию</u> по паспорту и селфи.</li>
+          <li>Зарегистрируйся на криптобирже с картой: <a class="lnk" href="https://www.pionex.com" target="_blank" rel="noopener">Pionex</a> (у нее самый простой путь до карты) или <a class="lnk" href="https://www.bybit.com" target="_blank" rel="noopener">Bybit</a>. Пройди <u>верификацию</u> по паспорту и селфи.</li>
           <li>Открой карту и пополни ее криптовалютой.</li>
           <li>На сайте Claude выбери тариф, введи <u>реквизиты карты</u> — оплата проходит напрямую.</li>
           <li>Подключается автосписание: следующий месяц спишется сам, следи только за балансом.</li>
@@ -775,6 +779,14 @@ Phone: (650) 253-0000</div>
           <div class="minus"><div class="lab"><span class="sym">−</span> Минусы</div><ul><li>Нужна верификация по паспорту</li><li>Правовая серая зона (см. выше)</li><li>Блокировки чаще, чем у способа 02</li></ul></div>
         </div>
         <p class="fit">Кому подойдет: тем, кто уже решил пользоваться Claude постоянно.</p>
+      </div>
+    </div>
+
+    <div class="copy" style="margin-top:20px">
+      <div class="cl">Не можешь выбрать? Пусть выберет Claude — скопируй промпт в бесплатную версию</div>
+      <div class="field">
+        <div class="txt" id="cp-paypick">Помоги оформить подписку Claude Pro из России. У меня есть: [крипта на бирже / только российская карта / iPhone]. Из трёх способов — агрегаторы (PlatiMarket/GGSell/FunPay), App Store с регионом США и подарочными картами Apple, криптокарта (Pionex/Bybit) — выбери оптимальный под мой случай и распиши по шагам. Учти: агрегаторы дают подписку на 1 месяц, криптокарта даёт автопродление, App Store реже ведёт к блокировкам.</div>
+        <button class="cbtn" data-cp="cp-paypick">Копировать промпт</button>
       </div>
     </div>
 
@@ -794,7 +806,7 @@ Phone: (650) 253-0000</div>
   <div class="wrap">
     <div class="shead">
       <span class="eyebrow">Шаг 04</span>
-      <h2>Чего не делать никогда</h2>
+      <h2>Красные флаги блокировок</h2>
       <p class="intro">Даже при полном соблюдении всех пунктов блокировка возможна — решение всегда за Anthropic. Но эти ошибки повышают риск в разы.</p>
     </div>
 
@@ -837,6 +849,7 @@ Phone: (650) 253-0000</div>
       <div class="qa"><div class="q">Сколько это стоит в итоге?<span class="pm">+</span></div><div class="a"><p>Сама подписка: Pro — $20 в месяц, Max — $100 или $200. Плюс расходы на VPN и, для части способов, комиссия продавца или биржи. Через агрегатор выходит дешевле всего на старте.</p></div></div>
       <div class="qa"><div class="q">Обязательно нужен свой сервер?<span class="pm">+</span></div><div class="a"><p>Нет. Сервер нужен только для агентского режима Claude Code 24/7. Чтобы просто пользоваться Claude в браузере — достаточно подписки.</p></div></div>
       <div class="qa"><div class="q">Работает ли это для ChatGPT?<span class="pm">+</span></div><div class="a"><p>Да. Все три способа так же подходят для ChatGPT и Minimax — методы оплаты почти одинаковые.</p></div></div>
+      <div class="qa"><div class="q">Что делать, если аккаунт заблокировали?<span class="pm">+</span></div><div class="a"><p>Без паники: блокировки иногда снимают. Напиши в поддержку Anthropic через <a class="lnk" href="https://support.anthropic.com" target="_blank" rel="noopener">support.anthropic.com</a> — вежливо и честно опиши ситуацию. Если аккаунт не вернули, заведи новый с учетом ошибок: прогрев, одна страна, один IP, одна карта.</p></div></div>
       <div class="qa"><div class="q">У меня всё равно не получается<span class="pm">+</span></div><div class="a"><p>Напиши мне напрямую — <a class="lnk" href="https://t.me/ustikris" target="_blank" rel="noopener">@kris.usti</a>. Разберем твою ситуацию, а на консультации — настройку аккаунта и первые шаги дальше.</p></div></div>
     </div>
   </div>
@@ -876,6 +889,7 @@ Phone: (650) 253-0000</div>
       <h4>Проверка перед стартом</h4>
       <a class="srclink" href="https://ifconfig.me" target="_blank" rel="noopener"><span class="d"><b>ifconfig.me</b><small>какой у тебя сейчас IP и страна</small><span class="u">ifconfig.me</span></span><span class="go">↗</span></a>
       <a class="srclink" href="https://whoer.net" target="_blank" rel="noopener"><span class="d"><b>Whoer</b><small>проверить утечки DNS и WebRTC</small><span class="u">whoer.net</span></span><span class="go">↗</span></a>
+      <a class="srclink" href="https://browserleaks.com/webrtc" target="_blank" rel="noopener"><span class="d"><b>BrowserLeaks</b><small>отдельная проверка WebRTC-утечки</small><span class="u">browserleaks.com/webrtc</span></span><span class="go">↗</span></a>
     </div>
 
     <div class="srcgrp">
@@ -893,6 +907,7 @@ Phone: (650) 253-0000</div>
       <a class="srclink" href="https://plati.market" target="_blank" rel="noopener"><span class="d"><b>Plati Market</b><small>агрегатор: активация за рубли</small><span class="u">plati.market</span></span><span class="go">↗</span></a>
       <a class="srclink" href="https://funpay.com" target="_blank" rel="noopener"><span class="d"><b>FunPay</b><small>агрегатор: активация за рубли</small><span class="u">funpay.com</span></span><span class="go">↗</span></a>
       <a class="srclink" href="https://t-j.ru/apple-region/" target="_blank" rel="noopener"><span class="d"><b>Смена региона App Store</b><small>инструкция для способа через App Store США</small><span class="u">t-j.ru/apple-region</span></span><span class="go">↗</span></a>
+      <a class="srclink" href="https://www.pionex.com" target="_blank" rel="noopener"><span class="d"><b>Pionex</b><small>криптобиржа с картой, простой путь; нюансы — в способе 03</small><span class="u">pionex.com</span></span><span class="go">↗</span></a>
       <a class="srclink" href="https://www.bybit.com" target="_blank" rel="noopener"><span class="d"><b>Bybit</b><small>криптобиржа с картой; правовые нюансы — в способе 03</small><span class="u">bybit.com</span></span><span class="go">↗</span></a>
     </div>
 
