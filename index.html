@@ -130,7 +130,7 @@
   /* about strip on hub */
   .about{margin-top:38px;background:var(--paper-2);border:1px solid var(--line);
     border-radius:var(--r);padding:22px 20px}
-  .about .who{font-weight:700;font-size:14px;margin-bottom:10px}
+  .about .who{font-weight:800;font-size:19px;letter-spacing:-.02em;margin-bottom:12px}
   .about .who i{font-family:'Playfair Display';font-style:italic;font-weight:500;color:var(--sky-deep)}
   .about p{font-size:15.5px;line-height:1.48;margin-bottom:12px}
   .about p:last-child{margin-bottom:0}
@@ -292,6 +292,11 @@
   .flag{margin-top:16px;background:var(--ink);color:var(--paper);border-radius:12px;padding:16px 18px;font-size:15px;line-height:1.5}
   .flag b{color:var(--sky)}
 
+  /* about buttons */
+  .abtn{display:inline-flex;align-items:center;gap:7px;background:var(--ink);color:var(--paper);
+    text-decoration:none;font-weight:700;font-size:14px;padding:11px 18px;border-radius:11px}
+  .abtn.alt{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+
   /* pull-quote */
   .pull{margin:20px 0 4px;background:var(--ink);border-radius:14px;padding:22px 20px;
     font-family:'Playfair Display';font-style:italic;font-weight:500;font-size:19px;
@@ -397,7 +402,7 @@
 <!-- TOP BAR -->
 <div class="topbar">
   <div class="in">
-    <div class="brand">Kris <i>× Claude</i></div>
+    <div class="brand" data-go="hub" style="cursor:pointer">Kris <i>× Claude</i></div>
     <button class="burger" id="burger" aria-label="Меню"><span></span><span></span><span></span></button>
   </div>
 </div>
@@ -419,6 +424,7 @@
   <div class="lbl" style="margin-top:22px">Справка</div>
   <a class="plain" data-go="abroad">Если ты не в России</a>
   <a class="plain" data-go="consult">Консультация</a>
+  <a class="plain" data-go="about">Обо мне</a>
   <a class="plain" href="https://t.me/+K8DAM4kXcgYwZmZi" target="_blank" rel="noopener">Сообщество →</a>
 </div>
 
@@ -426,7 +432,6 @@
 <div class="screen on" id="hub">
   <div class="hero">
     <div class="wrap">
-      <span class="eyebrow">гайд от Kris</span>
       <h1>Claude из России — <span class="fancy">без блокировок</span></h1>
       <p class="lede">Регистрация и оплата подписки — первый барьер, на котором отваливается большинство. Проведу по шагам: что подготовить, как оплатить и как не словить блок.</p>
       <div class="meta">
@@ -469,7 +474,6 @@
       <div class="hubhead">
         <h2 style="text-align:center">Путь по шагам</h2>
       </div>
-      <button class="startbtn" data-go="s0" style="margin-top:16px">Начать</button>
       <div class="steps-list" id="hubSteps">
         <button class="scard" data-go="s0"><div class="idx" data-idx="1">01</div><div class="tx"><b>Что подготовить</b><small>ВиПиеН, почта, номер — план на вечер</small></div><div class="go">→</div></button>
         <button class="scard" data-go="s1"><div class="idx" data-idx="2">02</div><div class="tx"><b>ВиПиеН</b><small>как выбрать, настроить и проверить</small></div><div class="go">→</div></button>
@@ -477,13 +481,14 @@
         <button class="scard" data-go="s3"><div class="idx" data-idx="4">04</div><div class="tx"><b>Номер телефона</b><small>принять код при регистрации</small></div><div class="go">→</div></button>
         <button class="scard" data-go="s4"><div class="idx" data-idx="5">05</div><div class="tx"><b>Регистрация</b><small>заводим аккаунт на claude.ai</small></div><div class="go">→</div></button>
         <button class="scard" data-go="s5"><div class="idx" data-idx="6">06</div><div class="tx"><b>Прогрев</b><small>первые 1–2 дня без спешки</small></div><div class="go">→</div></button>
+        <button class="scard" data-go="pay"><div class="idx" data-idx="7">07</div><div class="tx"><b>Оплата подписки</b><small>агрегаторы, App Store или своя карта</small></div><div class="go">→</div></button>
       </div>
 
       <div class="minilbl hubhead"><h2 style="font-size:20px">Дальше</h2></div>
       <div class="minirow">
-        <button data-go="pay">Оплата подписки</button>
         <button data-go="faq">Вопросы и ошибки</button>
         <button data-go="consult">Консультация</button>
+        <button data-go="about">Обо мне</button>
         <button class="hot" onclick="window.open('https://t.me/+K8DAM4kXcgYwZmZi','_blank')">Сообщество</button>
       </div>
     </div>
@@ -815,7 +820,7 @@
         </div>
       </div>
 
-      <div class="nextwrap"><button class="nextbtn" data-go="faq">Трек 3: вопросы и ошибки <span class="a">→</span></button></div>
+      <div class="nextwrap"><button class="nextbtn" data-go="faq" data-done="7">Трек 3: вопросы и ошибки <span class="a">→</span></button></div>
     </div>
   </section>
 </div>
@@ -892,7 +897,7 @@
   </div>
   <section class="stepwrap">
     <div class="wrap">
-      <div class="pull">Гарантирую, это был самый сложный этап, дальше тебя ждет увлекательный путь!</div>
+      <p style="margin:20px 0 4px;font-family:'Playfair Display',serif;font-style:italic;font-weight:500;font-size:19px;line-height:1.4;color:var(--ink)">Гарантирую, это был самый сложный этап, дальше тебя ждет увлекательный путь!</p>
       <p class="lead">Будем создавать реальные продукты — <i>сайты, веб-приложения, боты и автоворонки, презентации и все, на что хватит фантазии</i>. А самое главное — оптимизируем твою личную инфраструктуру и настроим автоматизации в твоих процессах.</p>
       <p class="lead" style="color:var(--ink);font-weight:600"><i>Я искренне убеждена: предприимчивым может быть человек на любой позиции и с любым уровнем ответственности.</i></p>
       <p class="lead"><u>Оптимизировать и масштабировать можно любую деятельность.</u> Мне хочется показать тебе, какой это увлекательный путь — не запирать себя в одной профессии, а быть открытым энтузиастом, вовлеченным в жизнь и в инновации.</p>
@@ -915,9 +920,53 @@
     </div>
   </section>
   <footer>
-    <b><a href="https://www.instagram.com/kris.usti" target="_blank" rel="noopener" style="color:var(--ink);text-decoration:underline;text-decoration-color:var(--sky-deep);text-underline-offset:2px">Крис · @kris.usti</a></b>
-    <span style="display:block;max-width:30em;margin:4px auto 0;font-size:11.5px">Я не программист и пришла не из IT. Еще год назад я также зависала над сотней вкладок и подборок и не понимала, за что хвататься первым.</span>
+    точка входа · гайд для тех, кто откладывал ИИ · <a href="https://www.instagram.com/kris.usti" target="_blank" rel="noopener" style="color:var(--ink);font-weight:700;text-decoration:underline;text-decoration-color:var(--sky-deep);text-underline-offset:2px">@kris.usti</a>
   </footer>
+</div>
+
+<!-- ============ ABOUT ============ -->
+<div class="screen" id="about">
+  <div class="stepbar"><div class="wrap in"><button class="back" data-go="hub">← Начало</button><span class="cnt">обо мне</span></div></div>
+  <section class="stepwrap">
+    <div class="wrap">
+      <div class="shead">
+        <span class="eyebrow">обо мне</span>
+        <h2>Кристина</h2>
+      </div>
+      <div style="margin-top:16px;display:flex;gap:9px;flex-wrap:wrap">
+        <a class="abtn" href="https://t.me/ustikris" target="_blank" rel="noopener">Telegram-канал</a>
+        <a class="abtn alt" href="https://www.instagram.com/kris.usti" target="_blank" rel="noopener">@kris.usti</a>
+      </div>
+
+      <h4 style="margin-top:28px"><span class="fancy">0</span> кто я</h4>
+      <p class="lead" style="color:var(--ink);font-weight:700;margin-top:8px">5 лет рядом с топ-менеджментом</p>
+      <p class="lead" style="margin-top:6px">бизнес-ассистент топ-менеджмента (CCO, CEO, COO) международных компаний. на этом фундаменте строю все, что делаю сейчас.</p>
+
+      <h4><span class="fancy">1</span> разворот 2025</h4>
+      <p class="lead" style="color:var(--ink);font-weight:700;margin-top:8px">сместила фокус на ИИ</p>
+      <p class="lead" style="margin-top:6px">ушла в IT-консалтинг: внедряем ИИ-агентов и автоматизации для компаний из США, канады, австралии, делаем мобильные приложения. и все это — с ИИ.</p>
+
+      <h4><span class="fancy">2</span> почему я понимаю</h4>
+      <p class="lead" style="color:var(--ink);font-weight:700;margin-top:8px">я прошла тот же путь, что и ты</p>
+      <p class="lead" style="margin-top:6px">от избегания ИИ до ежедневной работы с агентами. знаю, как убрать сопротивление и с чего начать именно тебе.</p>
+
+      <div class="flag" style="margin-top:22px"><b><u>моя миссия</u></b> — убедить тебя, что ты справишься. сделаю все, чтобы ты начал и загорелся ИИ так же, как когда-то я, — и это буквально изменило мою жизнь.</div>
+
+      <h4><span class="fancy">3</span> что уже сделано</h4>
+      <p class="lead" style="color:var(--ink);font-weight:700;margin-top:8px">не теория — рабочие проекты</p>
+      <p class="lead" style="margin-top:6px">сайт агентства <a class="lnk" href="https://architeq.io" target="_blank" rel="noopener">Architeq</a> спроектировала и написала с нуля сама. что уже собрали:</p>
+      <ol class="steps" style="margin-top:14px">
+        <li><a class="lnk" href="https://architeq.io/cases/ai-crm-agent" target="_blank" rel="noopener">ИИ-агент для CRM</a> — обрабатывает заявки без ручного ввода</li>
+        <li><a class="lnk" href="https://architeq.io/cases/sqla-visitor-management" target="_blank" rel="noopener">Self-service регистрация посетителей</a> — check-in без администратора</li>
+        <li><a class="lnk" href="https://architeq.io/cases/monday-integration" target="_blank" rel="noopener">интеграция систем на базе Monday</a></li>
+        <li><a class="lnk" href="https://architeq.io/solutions/mobile/freeparking" target="_blank" rel="noopener">FreeParking</a> — мобильное приложение</li>
+        <li><a class="lnk" href="https://architeq.io/solutions/mobile/pikup-app" target="_blank" rel="noopener">PikUp</a> — мобильное приложение</li>
+      </ol>
+      <p class="lead">в цифрах: голосовой агент отвечает за <b>7 секунд</b> вместо 2–4 часов, интеграция сняла с бухгалтерии <b>30 часов</b> ручного ввода в неделю, цикл работы с пациентом ускорился на <b>60%</b>.</p>
+
+      <div class="nextwrap"><button class="nextbtn" data-go="consult">Консультация <span class="a">→</span></button></div>
+    </div>
+  </section>
 </div>
 
 <!-- ============ CONSULT ============ -->
