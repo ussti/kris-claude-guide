@@ -35,6 +35,9 @@
   .eyebrow{font-family:'Playfair Display',serif;font-style:italic;font-weight:500;
     font-size:16px;color:var(--sky-deep)}
   .mk{color:var(--mark);font-weight:700}
+  u{text-decoration-color:var(--sky-deep);text-decoration-thickness:2px;text-underline-offset:2px}
+  .hlt{background:var(--sky);padding:0 4px;border-radius:4px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+  .ftnote{margin-top:14px;font-size:13px;font-style:italic;color:var(--ink-soft);line-height:1.5}
   /* inline clickable link */
   .lnk{color:var(--mark);font-weight:600;text-decoration:underline;
     text-decoration-color:var(--sky-deep);text-decoration-thickness:1.5px;
@@ -131,6 +134,7 @@
   .about .who i{font-family:'Playfair Display';font-style:italic;font-weight:500;color:var(--sky-deep)}
   .about p{font-size:15.5px;line-height:1.48;margin-bottom:12px}
   .about p:last-child{margin-bottom:0}
+  .about.compact p{font-size:14px}
 
   /* mini links row */
   .minilbl{margin-top:30px;margin-bottom:12px}
@@ -244,6 +248,29 @@
     padding:15px 16px;font-size:14.5px;color:var(--ink-soft);line-height:1.55}
   .tiers b{color:var(--ink);font-weight:700}
 
+  /* ---------- PLAN INFOGRAPHIC ---------- */
+  .plans{margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .plan{border:1px solid var(--line);border-radius:14px;background:var(--card);
+    padding:18px 15px;display:flex;flex-direction:column}
+  .plan.dark{background:var(--ink);border-color:var(--ink);color:#E4DCD2}
+  .plan .pname{font-weight:800;font-size:17px;letter-spacing:-.01em}
+  .plan.dark .pname{color:#fff}
+  .plan .price{font-family:'JetBrains Mono';font-weight:500;font-size:30px;color:var(--sky-deep);
+    margin-top:6px;line-height:1}
+  .plan.dark .price{color:var(--sky)}
+  .plan .price span{font-size:13px;color:var(--ink-soft)}
+  .plan.dark .price span{color:#B8AEA2}
+  .plan .ptag{font-family:'Playfair Display';font-style:italic;font-size:13.5px;
+    color:var(--sky-deep);margin-top:8px}
+  .plan.dark .ptag{color:var(--sky)}
+  .plan ul{list-style:none;margin-top:12px;font-size:13.5px;line-height:1.45;
+    display:flex;flex-direction:column;gap:7px}
+  .plan li{padding-left:14px;position:relative}
+  .plan li:before{content:"—";position:absolute;left:0;color:var(--sky-deep)}
+  .plan.dark li:before{color:var(--sky)}
+  .plansnote{margin-top:12px;text-align:center;font-size:13.5px;color:var(--ink-soft);
+    font-family:'Playfair Display';font-style:italic}
+
   /* ---------- WARMUP ---------- */
   .toggle{margin-top:22px;display:flex;background:var(--card);border:1px solid var(--line);
     border-radius:12px;padding:5px;gap:5px}
@@ -264,6 +291,11 @@
   .tl li b{font-weight:700}
   .flag{margin-top:16px;background:var(--ink);color:var(--paper);border-radius:12px;padding:16px 18px;font-size:15px;line-height:1.5}
   .flag b{color:var(--sky)}
+
+  /* pull-quote */
+  .pull{margin:20px 0 4px;background:var(--ink);border-radius:14px;padding:22px 20px;
+    font-family:'Playfair Display';font-style:italic;font-weight:500;font-size:19px;
+    line-height:1.4;color:var(--sky)}
 
   /* ---------- DON'TS ---------- */
   .donts-list{margin-top:22px;list-style:none;display:flex;flex-direction:column;gap:12px}
@@ -293,9 +325,12 @@
 
   /* full-screen step steps tighten */
   .stepwrap .lead{font-size:15px;color:var(--ink-soft);line-height:1.5;margin-top:14px}
-  .stepwrap h4{font-weight:700;font-size:15px;margin:22px 0 2px;letter-spacing:-.01em;
-    display:flex;align-items:center;gap:9px}
-  .stepwrap h4 .fancy{color:var(--sky-deep);font-size:16px}
+  .stepwrap h4{font-weight:800;font-size:19px;margin:26px 0 4px;letter-spacing:-.02em;
+    display:flex;align-items:center;gap:10px}
+  .stepwrap h4 .fancy{font-family:'JetBrains Mono';font-style:normal;font-weight:500;
+    font-size:13px;color:var(--sky);background:var(--ink);border-radius:8px;
+    min-width:30px;height:30px;display:flex;align-items:center;justify-content:center;
+    padding:0 7px;flex:none}
   .stepwrap .tipline{margin-top:10px;font-size:13.5px;color:var(--ink-soft);
     font-family:'Playfair Display';font-style:italic;line-height:1.45}
 
@@ -395,7 +430,7 @@
       <h1>Claude из России — <span class="fancy">без блокировок</span></h1>
       <p class="lede">Регистрация и оплата подписки — первый барьер, на котором отваливается большинство. Проведу по шагам: что подготовить, как оплатить и как не словить блок.</p>
       <div class="meta">
-        <div class="m"><span class="ast">✱</span> <b>2–3 часа</b> на всё</div>
+        <div class="m"><span class="ast">✱</span> <b>2–3 часа</b> на все</div>
         <div class="m"><span class="ast">✱</span> <b>3 способа</b> оплаты</div>
         <div class="m"><span class="ast">✱</span> <b>0</b> техбэкграунда</div>
       </div>
@@ -404,37 +439,37 @@
 
   <section>
     <div class="wrap">
-      <div class="about">
+      <div class="about compact">
         <div class="who">Предисловие <i>от Kris</i></div>
-        <p>Хочу предупредить, что это самая нудная часть всего пути. Нужно сделать один мощный рывок — и получить доступ к передовым моделям Anthropic (одному из лидеров рынка). И это связано исключительно из-за ограничений для РФ граждан.</p>
+        <p>Хочу предупредить, что это <span class="hlt">самая нудная часть всего пути</span>. Нужно сделать один мощный рывок — и получить доступ к передовым моделям Anthropic (одному из лидеров рынка). И это связано исключительно из-за ограничений для РФ граждан.</p>
         <p>Пройдя этот этап один раз, тебе откроется доступ ко всем возможностям ИИ-агентов, о которых ты слышал, но не знал, как и с чего начать.</p>
-        <p>Дальше — только креатив и дофамин от того, что сделаешь уже в первую неделю.</p>
-        <p>Чтобы упростить тебе вход, я сделала интерактивный онбординг: он проведёт тебя шаг за шагом и позаботится о том, чтобы у тебя была вся актуальная информация.</p>
-        <p style="font-size:14px;color:var(--ink-soft)">P.S. Выделить нужно будет 2–3 часа на все эти обходные пути, если прям новичок. Или часик, если знаком с терминологией и интерфейсом сервисов.</p>
+        <p><span class="hlt">Дальше — только креатив</span> и дофамин от того, что сделаешь уже в первую неделю.</p>
+        <p>Чтобы упростить тебе вход, я сделала интерактивный онбординг: он <span class="hlt">проведет тебя шаг за шагом</span> и позаботится о том, чтобы у тебя была вся актуальная информация.</p>
+        <p style="font-size:13px;color:var(--ink-soft)">P.S. Выделить нужно будет 2–3 часа на все эти обходные пути, если прям новичок. Или часик, если знаком с терминологией и интерфейсом сервисов.</p>
       </div>
 
       <div class="hubhead">
         <h2>С чего начать: два трека</h2>
         <p>Ты сейчас в России или нет?</p>
       </div>
-      <div class="steps-list" style="margin-top:16px">
-        <button class="scard" data-go="s0">
+      <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <button class="scard" data-go="s0" style="gap:12px">
           <div class="idx" data-idx="0">Да</div>
-          <div class="tx"><b>Я в России</b><small>сложности две: регистрация и оплата — начинаем с настройки</small></div>
+          <div class="tx"><b>Я в России</b></div>
           <div class="go">→</div>
         </button>
-        <button class="scard" data-go="abroad">
+        <button class="scard" data-go="abroad" style="gap:12px">
           <div class="idx" data-idx="x" style="background:var(--sky-deep)">Нет</div>
-          <div class="tx"><b>Я не в России</b><small>регистрация стандартная, вопрос только в оплате</small></div>
+          <div class="tx"><b>Я не в России</b></div>
           <div class="go">→</div>
         </button>
       </div>
-      <div class="note"><b>Если да</b> — сложности две: регистрация и оплата. Claude не работает с российскими IP-адресами и не принимает российские карты, поэтому сначала настраиваем сеть, потом регистрируемся, потом оплачиваем подписку. Дальше весь гайд — для трека «из России».</div>
+      <p class="ftnote">Claude не работает с российскими IP-адресами и не принимает российские карты, поэтому сначала настраиваем сеть, потом регистрируемся, потом оплачиваем подписку.</p>
 
       <div class="hubhead">
-        <h2>Путь по шагам</h2>
-        <p>Прогресс сохраняется в браузере — можно вернуться завтра и продолжить с места.</p>
+        <h2 style="text-align:center">Путь по шагам</h2>
       </div>
+      <button class="startbtn" data-go="s0" style="margin-top:16px">Начать</button>
       <div class="steps-list" id="hubSteps">
         <button class="scard" data-go="s0"><div class="idx" data-idx="1">01</div><div class="tx"><b>Что подготовить</b><small>ВиПиеН, почта, номер — план на вечер</small></div><div class="go">→</div></button>
         <button class="scard" data-go="s1"><div class="idx" data-idx="2">02</div><div class="tx"><b>ВиПиеН</b><small>как выбрать, настроить и проверить</small></div><div class="go">→</div></button>
@@ -503,11 +538,11 @@
 
       <div class="disc" style="margin-top:20px">
         <span class="eyebrow">правовая рамка</span>
-        <p>Использование ВиПиеН в России законом не запрещено. Запрещена реклама и популяризация сервисов обхода блокировок (закон действует с 1 сентября 2025), поэтому конкретные ВиПиеН-сервисы этот гайд не называет и не рекомендует — выбор остаётся за тобой. Ниже — только нейтральные критерии выбора и правила настройки.</p>
+        <p>Использование ВиПиеН в России законом не запрещено. Запрещена реклама и популяризация сервисов обхода блокировок (закон действует с 1 сентября 2025), поэтому конкретные ВиПиеН-сервисы этот гайд не называет и не рекомендует — выбор остается за тобой. Ниже — только нейтральные критерии выбора и правила настройки.</p>
       </div>
 
       <h4><span class="fancy">01</span> Не все ВиПиеН подойдут</h4>
-      <p class="lead">Claude не работает с IP-адресами из России и Беларуси. Помимо того, они блокируют и те адреса, которые уже “засветились” — все публичные ВиПиеН, дешевые варианты без выделенного IP, бесплатные расширения (ProtonВиПиеН Free, Windscribe Free, случайные расширения в Chrome): их IP уже в чёрных списках Anthropic. Нужен либо платный ВиПиеН, либо свой сервер.</p>
+      <p class="lead">Claude не работает с IP-адресами из России и Беларуси. Помимо того, они блокируют и те адреса, которые уже “засветились” — все публичные ВиПиеН, дешевые варианты без выделенного IP, бесплатные расширения (ProtonВиПиеН Free, Windscribe Free, случайные расширения в Chrome): их IP уже в черных списках Anthropic. Нужен либо платный ВиПиеН, либо свой сервер.</p>
       <p class="lead">Твоя задача — создать постоянный цифровой след с помощью платного ВиПиеН одной страны. Первое, что требуется, — выбрать сервис и настроить его по шагам.</p>
 
       <h4><span class="fancy">02</span> Как выбрать сервис</h4>
@@ -515,7 +550,7 @@
         <li><u>Современные протоколы с маскировкой трафика.</u> В описании сервиса ищи слова «обфускация», «маскировка», «stealth», «защита от DPI» — это значит, что трафик ВиПиеН неотличим от обычного, и его сложнее заблокировать.</li>
         <li><u>Выбор конкретной страны.</u> Тебе нужны Нидерланды, Германия или Финляндия. Не бери США (чаще вызывают подозрения) и «быстрые» серверы без указания страны — там общие, заспамленные адреса.</li>
         <li><u>Оплата, доступная из РФ.</u> Российской картой, криптовалютой или через Telegram-бота сервиса.</li>
-        <li><u>Платный тариф.</u> Бесплатные ВиПиеН и расширения для браузера не подходят: их адреса делят тысячи людей, и они давно в чёрных списках.</li>
+        <li><u>Платный тариф.</u> Бесплатные ВиПиеН и расширения для браузера не подходят: их адреса делят тысячи людей, и они давно в черных списках.</li>
       </ol>
 
       <div class="copy">
@@ -532,7 +567,7 @@
         <a class="btn" href="https://t.me/+K8DAM4kXcgYwZmZi" target="_blank" rel="noopener">Вступить <span class="a">→</span></a>
       </div>
 
-      <div class="note"><b>Сильный плюс</b> — опция «выделенный IP» (dedicated IP): адрес, которым пользуешься только ты. Никто не «засветил» его в Claude до тебя, и риск блокировки заметно ниже. Частая причина бана — десятки людей, регистрирующихся с одного общего адреса.</div>
+      <p class="ftnote"><b>Сильный плюс</b> — опция «выделенный IP» (dedicated IP): адрес, которым пользуешься только ты. Никто не «засветил» его в Claude до тебя, и риск блокировки заметно ниже. Частая причина бана — десятки людей, регистрирующихся с одного общего адреса.</p>
 
       <h4><span class="fancy">03</span> Правила использования</h4>
       <ol class="steps" style="margin-top:14px">
@@ -546,7 +581,7 @@
       <ol class="steps" style="margin-top:14px">
         <li>Открой <a class="lnk" href="https://ifconfig.me" target="_blank" rel="noopener">ifconfig.me</a> — IP должен быть европейский (та страна, которую выбрал).</li>
         <li>Если видишь свой реальный IP — нужно отключить WebRTC. Как? В Chrome добавь расширение «WebRTC Leak Prevent».</li>
-        <li>На <a class="lnk" href="https://whoer.net" target="_blank" rel="noopener">whoer.net</a> проверь утечку DNS: бывает, что ВиПиеН включён, а запросы к сайтам всё равно идут через российского провайдера — и сервис видит реальное местоположение. В настройках ВиПиеН ищи галочку «DNS через ВиПиеН» или «защита от утечек DNS» — включи её.</li>
+        <li>На <a class="lnk" href="https://whoer.net" target="_blank" rel="noopener">whoer.net</a> проверь утечку DNS: бывает, что ВиПиеН включен, а запросы к сайтам все равно идут через российского провайдера — и сервис видит реальное местоположение. В настройках ВиПиеН ищи галочку «DNS через ВиПиеН» или «защита от утечек DNS» — включи ее.</li>
       </ol>
 
       <h4><span class="fancy">05</span> Чеклист для самопроверки</h4>
@@ -557,12 +592,15 @@
       </div>
       <div class="checkbar"><div class="pb"><i id="prepPb"></i></div><b id="prepCnt">0 / 3</b></div>
 
-      <div class="note"><b>* Для продвинутых: свой сервер.</b> Вместо подписки на сервис можно поднять личный ВиПиеН на арендованном сервере (от 4–8 долларов в месяц): бесплатные open-source клиенты разворачивают его на сервере за несколько минут, без командной строки. Плюсы: адрес только твой, полный контроль, никаких подписок — платишь только за сервер. Минус: полчаса настройки и нужен сам сервер. Важно: сервер должен быть в европейской локации — сервер в московском дата-центре даст российский IP, и смысл теряется.</div>
-      <div class="note">Максимальный уровень защиты — антидетект-браузер (например, AdsPower): он скрывает не только адрес, но и «отпечаток» устройства — часовой пояс, шрифты, разрешение экрана. Для старта это избыточно; вариант для тех, кто строит рабочую систему всерьёз.</div>
-      <a class="srclink" style="margin-top:12px" href="https://m.do.co/c/eedbf36db1b8" target="_blank" rel="noopener">
-        <div class="d"><b>DigitalOcean (VPS)</b><small>$200 на 60 дней</small><span class="u">m.do.co/c/eedbf36db1b8</span></div>
-        <div class="go">→</div>
-      </a>
+      <div class="note">
+        <p><b><u>Для продвинутых: свой сервер.</u></b> Вместо подписки на сервис можно поднять личный ВиПиеН на арендованном сервере (от 4–8 долларов в месяц): бесплатные open-source клиенты разворачивают его на сервере за несколько минут, без командной строки. Плюсы: адрес только твой, полный контроль, никаких подписок — платишь только за сервер. Минус: полчаса настройки и нужен сам сервер. Важно: сервер должен быть в европейской локации — сервер в московском дата-центре даст российский IP, и смысл теряется.</p>
+        <p style="margin-top:10px"><b><u>Максимальный уровень защиты</u></b> — антидетект-браузер (например, AdsPower): он скрывает не только адрес, но и «отпечаток» устройства — часовой пояс, шрифты, разрешение экрана. Для старта это избыточно; вариант для тех, кто строит рабочую систему всерьез.</p>
+        <p style="margin-top:10px"><b><u>Рекомендация от меня:</u></b></p>
+        <a class="srclink" style="margin-top:10px" href="https://m.do.co/c/eedbf36db1b8" target="_blank" rel="noopener">
+          <div class="d"><b>DigitalOcean (VPS)</b><small>$200 на 60 дней</small><span class="u">m.do.co/c/eedbf36db1b8</span></div>
+          <div class="go">→</div>
+        </a>
+      </div>
 
       <h4><span class="fancy">06</span> Дополнительно используй отдельный профиль в браузере</h4>
       <ol class="steps" style="margin-top:14px">
@@ -587,12 +625,12 @@
         <p class="intro">Claude больше всего доверяет аккаунтам Google. Но лучше не используй старый почтовый ящик. Либо создай новый Gmail, либо купи готовый.</p>
       </div>
       <h4 style="margin-top:24px"><span class="fancy">01</span> Порядок создания</h4>
-      <ol class="steps" style="margin-top:14px">
-        <li>ВиПиеН включён, страна проверена.</li>
-        <li>Браузер — в режиме инкогнито или в новом профиле.</li>
-        <li>gmail.com → «Создать аккаунт» → «Для личного использования».</li>
-        <li>Имя и фамилия латиницей, нейтральный адрес вида <span class="mono">maria_sidorova@gmail.com</span>.</li>
-      </ol>
+      <div class="check">
+        <div class="citem" data-k="m1"><div class="bx"></div><div class="cx"><b>ВиПиеН включен, страна проверена</b></div></div>
+        <div class="citem" data-k="m2"><div class="bx"></div><div class="cx"><b>Браузер — в режиме инкогнито или в новом профиле</b></div></div>
+        <div class="citem" data-k="m3"><div class="bx"></div><div class="cx"><b>gmail.com → «Создать аккаунт» → «Для личного использования»</b></div></div>
+        <div class="citem" data-k="m4"><div class="bx"></div><div class="cx"><b>Имя и фамилия латиницей</b><p>нейтральный адрес вида <span class="mono">maria_sidorova@gmail.com</span></p></div></div>
+      </div>
       <h4><span class="fancy">02</span> Купить можно здесь</h4>
       <a class="srclink" style="margin-top:12px" href="https://ggsel.net/catalog/gmail" target="_blank" rel="noopener">
         <div class="d"><b>GGSel</b><small>готовые Gmail-аккаунты</small><span class="u">ggsel.net/catalog/gmail</span></div>
@@ -641,14 +679,14 @@
         <span class="eyebrow">шаг 4</span>
         <h2>Регистрация</h2>
       </div>
-      <ol class="steps" style="margin-top:22px">
-        <li>Выбран отдельный профиль в браузере или вход в режиме инкогнито.</li>
-        <li>ВиПиеН включен и проверен по чеклисту.</li>
-        <li>Переходим на сайт claude.ai → Sign up → «Continue with Google» → вводим новую почту.</li>
-        <li>Подтверждаем номер по SMS, отвечаем на вопросы (имя — латиницей).</li>
-        <li>Убеждаемся, что аккаунт создан.</li>
-        <li>Не оплачивай подписку, используй бесплатный доступ — сначала шаг 5, прогрев.</li>
-      </ol>
+      <div class="check" style="margin-top:22px">
+        <div class="citem" data-k="r1"><div class="bx"></div><div class="cx"><b>Выбран отдельный профиль в браузере или вход в режиме инкогнито</b></div></div>
+        <div class="citem" data-k="r2"><div class="bx"></div><div class="cx"><b>ВиПиеН включен и проверен по чеклисту</b></div></div>
+        <div class="citem" data-k="r3"><div class="bx"></div><div class="cx"><b>Переходим на сайт claude.ai → Sign up → «Continue with Google»</b><p>вводим новую почту</p></div></div>
+        <div class="citem" data-k="r4"><div class="bx"></div><div class="cx"><b>Подтверждаем номер по SMS</b><p>отвечаем на вопросы (имя — латиницей)</p></div></div>
+        <div class="citem" data-k="r5"><div class="bx"></div><div class="cx"><b>Убеждаемся, что аккаунт создан</b></div></div>
+        <div class="citem" data-k="r6"><div class="bx"></div><div class="cx"><b>Не оплачивай подписку, используй бесплатный доступ</b><p>сначала шаг 5, прогрев</p></div></div>
+      </div>
       <div class="nextwrap"><button class="nextbtn" data-go="s5" data-done="5">Дальше: прогрев <span class="a">→</span></button></div>
     </div>
   </section>
@@ -666,7 +704,7 @@
       </div>
       <p class="lead">Поэтому в первые 1–2 дня сначала познакомься с интерфейсом, без оплаты. Задай 5–10 обычных вопросов: перевод текста, анализ статьи или найти рецепт блинов с хорошими отзывами.</p>
       <p class="lead">В бесплатной версии тебе будет доступен чат-бот (интерфейс, как у ChatGPT). Полный доступ откроешь на второй день, после оплаты подписки.</p>
-      <div class="flag"><b>Не забывай:</b> с этого дня любой вход в Claude — один и тот же VPN, отдельный профиль в браузере или режим инкогнито.</div>
+      <div class="flag"><b><u>Не забывай:</u></b> с этого дня любой вход в Claude — один и тот же VPN, отдельный профиль в браузере или режим инкогнито.</div>
       <div class="nextwrap"><button class="nextbtn" data-go="pay" data-done="6">Трек 2: оплата подписки <span class="a">→</span></button></div>
     </div>
   </section>
@@ -694,8 +732,8 @@
         <div class="method">
           <h3>Агрегаторы</h3>
           <span class="tag">быстро и в рублях</span>
-          <p class="lead" style="margin-top:12px">Площадки Plati Market, FunPay, GGSel: продавцы активируют подписку на твоём аккаунте за рубли.</p>
-          <p class="lead">Как это работает: выбираешь продавца (смотри на рейтинг, срок работы и процент возвратов, внимательно читай описание товара), оплачиваешь российской картой, отправляешь продавцу Gmail своего аккаунта Claude — обязательно на бесплатном тарифе, без активных подписок. Продавец активирует подписку сам.</p>
+          <p class="lead" style="margin-top:12px">Площадки Plati Market, FunPay, GGSel: продавцы активируют подписку на твоем аккаунте за рубли.</p>
+          <p class="lead"><u>Как это работает:</u> выбираешь продавца (смотри на рейтинг, срок работы и процент возвратов, внимательно читай описание товара), оплачиваешь российской картой, отправляешь продавцу Gmail своего аккаунта Claude — обязательно на бесплатном тарифе, без активных подписок. Продавец активирует подписку сам.</p>
           <div class="verdict">
             <div class="plus"><div class="lab"><span class="sym">+</span> плюс</div><ul><li>ничего не нужно, кроме российской карты; цены часто ниже прямых</li></ul></div>
             <div class="minus"><div class="lab"><span class="sym">−</span> минус</div><ul><li>подписка на один месяц — через месяц идешь на площадку снова. Подходит, чтобы попробовать, но для постоянной работы неудобно</li></ul></div>
@@ -713,10 +751,10 @@
           <ol class="steps" style="margin-top:12px">
             <li>Сначала нужно сменить страну в App Store на ту, в которой выпущена карта (в нашем случае, США). Инструкция: <a class="lnk" href="https://t-j.ru/apple-region/" target="_blank" rel="noopener">t-j.ru/apple-region</a>. Кратко: App Store → профиль → настройки учетной записи → «Страна/регион» → США. Способ оплаты — «Нет», адрес — любой американский, телефон — любые цифры.</li>
             <li>Купи Apple Gift Card нужного номинала на Яндекс.Маркете, Ozon или Wildberries (смотри на рейтинг продавца), оплати российской картой, получи код.</li>
-            <li>App Store → профиль → «Активировать код» — деньги упадут на счёт.</li>
-            <li>Скачай приложение Claude (оно появится в американском регионе), войди в свой аккаунт, выбери тариф — оплата пройдёт со счёта App Store.</li>
+            <li>App Store → профиль → «Активировать код» — деньги упадут на счет.</li>
+            <li>Скачай приложение Claude (оно появится в американском регионе), войди в свой аккаунт, выбери тариф — оплата пройдет со счета App Store.</li>
           </ol>
-          <div class="note"><b>Вариант с иностранной картой:</b> смени регион App Store на страну своей карты, привяжи карту и оплачивай подписку через App Store.</div>
+          <div class="note"><b><u>Вариант с иностранной картой:</u></b> смени регион App Store на страну своей карты, привяжи карту и оплачивай подписку через App Store.</div>
         </div>
       </div>
 
@@ -730,9 +768,9 @@
             <li><u>Криптокарта.</u> Выпускают криптобиржи: у Pionex путь самый простой — регистрация, верификация по паспорту и селфи, выпуск карты, пополнение криптовалютой; есть карта и у Bybit. Дальше просто вводишь реквизиты карты на сайте Claude.</li>
             <li><u>Виртуальные карточные сервисы</u> — GoGoCard (единоразово и навсегда), Heleket, WantToPayBot: выпускают международную виртуальную карту, пополнение с российской карты или криптой. Дороже на комиссиях, зато без криптобиржи.</li>
             <li><u>Карта Озон Банка</u> — по опыту сообщества проходит.</li>
-            <li><u>Своя карта Казахстана или Киргизии</u> — надёжно и на годы, если есть возможность оформить (Казахстан удобен и тем, что нет НДС — в Европе сверху 20–30%). Привязывается к Apple Pay / Google Pay.</li>
+            <li><u>Своя карта Казахстана или Киргизии</u> — надежно и на годы, если есть возможность оформить (Казахстан удобен и тем, что нет НДС — в Европе сверху 20–30%). Привязывается к Apple Pay / Google Pay.</li>
           </ol>
-          <div class="note"><b>Правило адреса при оплате:</b> адрес в платёжной форме должен совпадать со страной карты. Если карта виртуальная и к стране не привязана — указывай страну, из которой заходишь (ту же, что в ВиПиеН).</div>
+          <div class="note"><b><u>Правило адреса при оплате:</u></b> адрес в платежной форме должен совпадать со страной карты. Если карта виртуальная и к стране не привязана — указывай страну, из которой заходишь (ту же, что в ВиПиеН).</div>
         </div>
       </div>
 
@@ -744,10 +782,29 @@
       </ol>
 
       <h4><span class="fancy">✱</span> Какой тариф выбрать?</h4>
-      <div class="tiers" style="margin-top:12px">
-        <b>Pro ($20/мес)</b> — достаточно для старта, но с ограничением в лимитах. Получаете доступ к Claude Design, расширению Claude в браузере, Claude Cowork и Claude Code.<br><br>
-        <b>Max ($100/мес)</b> — доступ ко всем тем же продуктам, но с расширенными лимитами на использование: переключитесь, когда начнете упираться в лимиты. Нужен, если строишь агента, работающего на сервере.
+      <div class="plans">
+        <div class="plan">
+          <div class="pname">Pro</div>
+          <div class="price">$20<span> /мес</span></div>
+          <div class="ptag">достаточно для старта</div>
+          <ul>
+            <li>Claude Design</li>
+            <li>расширение Claude в браузере</li>
+            <li>Claude Cowork и Claude Code</li>
+            <li>ограничение в лимитах</li>
+          </ul>
+        </div>
+        <div class="plan dark">
+          <div class="pname">Max</div>
+          <div class="price">$100<span> /мес</span></div>
+          <div class="ptag">все те же продукты</div>
+          <ul>
+            <li>расширенные лимиты на использование</li>
+            <li>нужен, если строишь агента, работающего на сервере</li>
+          </ul>
+        </div>
       </div>
+      <div class="plansnote">переключитесь, когда начнете упираться в лимиты</div>
 
       <div class="cta" style="margin-top:34px">
         <div class="wrap">
@@ -776,20 +833,20 @@
       <h4 style="margin-top:24px"><span class="fancy">01</span> Частые ошибки</h4>
       <ul class="donts-list">
         <li><span class="x">01</span><span><b>Регистрироваться без ВиПиеН</b> — бан в первый же час.</span></li>
-        <li><span class="x">02</span><span><b>Пользоваться бесплатными и публичными ВиПиеН</b> — их адреса в чёрных списках.</span></li>
+        <li><span class="x">02</span><span><b>Пользоваться бесплатными и публичными ВиПиеН</b> — их адреса в черных списках.</span></li>
         <li><span class="x">03</span><span><b>Прыгать между странами</b> — одна страна со дня регистрации и в процессе использования.</span></li>
         <li><span class="x">04</span><span><b>Платить одной картой за несколько аккаунтов</b> — своих, друзей, родственников. Одна карта — один аккаунт: массовые оплаты с одной карты система считает перепродажей.</span></li>
         <li><span class="x">05</span><span><b>Регистрировать несколько аккаунтов Claude с одного IP</b> — один адрес, один аккаунт.</span></li>
         <li><span class="x">06</span><span><b>Передавать аккаунт другим</b></span></li>
         <li><span class="x">07</span><span><b>Пропускать прогрев или прерывать ВиПиеН в середине регистрации</b></span></li>
       </ul>
-      <div class="note"><b>Честная оговорка:</b> всё это — практики сообщества, которые сильно снижают риск блокировок, но не гарантия. Решение о блокировке всегда за Anthropic.</div>
+      <div class="note"><b><u>Честная оговорка:</u></b> все это — практики сообщества, которые сильно снижают риск блокировок, но не гарантия. Решение о блокировке всегда за Anthropic.</div>
 
-      <h4><span class="fancy">02</span> Если аккаунт всё-таки заблокировали</h4>
+      <h4><span class="fancy">02</span> Если аккаунт все-таки заблокировали</h4>
       <p class="lead">Без паники — блокировки иногда снимают.</p>
       <ol class="steps" style="margin-top:14px">
         <li>Напиши в поддержку Anthropic через <a class="lnk" href="https://support.anthropic.com" target="_blank" rel="noopener">support.anthropic.com</a> — на английском, вежливо и честно опиши ситуацию.</li>
-        <li>Если аккаунт не вернули — заведи новый с учётом ошибок: прогрев, одна страна, один IP, одна карта, чистая почта.</li>
+        <li>Если аккаунт не вернули — заведи новый с учетом ошибок: прогрев, одна страна, один IP, одна карта, чистая почта.</li>
       </ol>
 
       <h4><span class="fancy">03</span> Сколько это стоит в итоге?</h4>
@@ -804,7 +861,7 @@
       </div>
 
       <div class="help">
-        <span class="eyebrow">у меня всё равно не получается</span>
+        <span class="eyebrow">у меня все равно не получается</span>
         <h3>Пиши — помогу разобраться</h3>
         <p>Если что-то пошло не так или остались вопросы по своей ситуации — пиши @kris.usti, помогу разобраться. Дальше, на консультации, разберем настройку аккаунта и следующие шаги, чтобы дойти до первых результатов.</p>
         <a class="btn" href="https://www.instagram.com/kris.usti" target="_blank" rel="noopener">Написать @kris.usti <span class="a">→</span></a>
@@ -830,13 +887,15 @@
       <span class="eyebrow">поздравляю</span>
       <h1 style="font-size:clamp(28px,8vw,40px)">Ты добыл свою <span class="fancy">NZT-48</span>, только без побочки!</h1>
       <p class="lede">Это буквально твой кратный усилитель в ежедневной рутине и мультипликатор всей твоей экспертизы.</p>
+      <p style="margin-top:12px;font-size:12.5px;font-style:italic;color:#B8AEA2;line-height:1.5">NZT-48 — таблетка из фильма «Области тьмы» (Limitless), которая раскрывала возможности мозга на полную.</p>
     </div>
   </div>
   <section class="stepwrap">
     <div class="wrap">
-      <p class="lead">Гарантирую, это был самый сложный этап, дальше тебя ждет увлекательный путь! Будем создавать реальные продукты — <i>сайты, веб-приложения, боты и автоворонки, презентации и все, на что хватит фантазии</i>. А самое главное — оптимизируем твою личную инфраструктуру и настроим автоматизации в твоих процессах.</p>
-      <p class="lead"><i>Я искренне убеждена: предприимчивым может быть человек на любой позиции и с любым уровнем ответственности.</i></p>
-      <p class="lead">Оптимизировать и масштабировать можно любую деятельность. Мне хочется показать тебе, какой это увлекательный путь — не запирать себя в одной профессии, а быть открытым энтузиастом, вовлеченным в жизнь и в инновации.</p>
+      <div class="pull">Гарантирую, это был самый сложный этап, дальше тебя ждет увлекательный путь!</div>
+      <p class="lead">Будем создавать реальные продукты — <i>сайты, веб-приложения, боты и автоворонки, презентации и все, на что хватит фантазии</i>. А самое главное — оптимизируем твою личную инфраструктуру и настроим автоматизации в твоих процессах.</p>
+      <p class="lead" style="color:var(--ink);font-weight:600"><i>Я искренне убеждена: предприимчивым может быть человек на любой позиции и с любым уровнем ответственности.</i></p>
+      <p class="lead"><u>Оптимизировать и масштабировать можно любую деятельность.</u> Мне хочется показать тебе, какой это увлекательный путь — не запирать себя в одной профессии, а быть открытым энтузиастом, вовлеченным в жизнь и в инновации.</p>
       <div class="flag" style="margin-top:20px">Разобраться в ИИ сегодня — это <b>конкурентное преимущество</b>, но через полгода это станет просто базовым требованием ко всем.</div>
 
       <div class="help" style="margin-top:26px">
@@ -856,8 +915,8 @@
     </div>
   </section>
   <footer>
-    <b>Крис · @kris.usti</b><br>
-    Я не программист и пришла не из IT. Еще год назад я также зависала над сотней вкладок и подборок и не понимала, за что хвататься первым.
+    <b><a href="https://www.instagram.com/kris.usti" target="_blank" rel="noopener" style="color:var(--ink);text-decoration:underline;text-decoration-color:var(--sky-deep);text-underline-offset:2px">Крис · @kris.usti</a></b>
+    <span style="display:block;max-width:30em;margin:4px auto 0;font-size:11.5px">Я не программист и пришла не из IT. Еще год назад я также зависала над сотней вкладок и подборок и не понимала, за что хвататься первым.</span>
   </footer>
 </div>
 
@@ -906,17 +965,18 @@
   // interactive checklist (persisted)
   var CK='kris_claude_v2_ck';
   var state={}; try{state=JSON.parse(localStorage.getItem(CK)||'{}')}catch(e){state={}}
-  var items=document.querySelectorAll('#prepCheck .citem');
+  var items=document.querySelectorAll('.citem');
   function saveState(){try{localStorage.setItem(CK,JSON.stringify(state))}catch(e){}}
   function renderCheck(){
-    var n=0;
     items.forEach(function(it){
       var k=it.getAttribute('data-k');
-      if(state[k]){it.classList.add('done');n++}else{it.classList.remove('done')}
+      if(state[k]){it.classList.add('done')}else{it.classList.remove('done')}
     });
+    var prep=document.querySelectorAll('#prepCheck .citem'), n=0;
+    prep.forEach(function(it){if(state[it.getAttribute('data-k')])n++});
     var c=document.getElementById('prepCnt'), p=document.getElementById('prepPb');
-    if(c)c.textContent=n+' / '+items.length;
-    if(p)p.style.width=(n/items.length*100)+'%';
+    if(c)c.textContent=n+' / '+prep.length;
+    if(p)p.style.width=(n/prep.length*100)+'%';
   }
   items.forEach(function(it){
     it.addEventListener('click',function(){
